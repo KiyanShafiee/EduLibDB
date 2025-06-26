@@ -84,8 +84,9 @@
 --    FOREIGN KEY (project_id) REFERENCES Education.research_project(project_id),
 --    FOREIGN KEY (student_id) REFERENCES Education.student(student_id)
 --);
+
 --CREATE TABLE person (
---    national_id CHAR(10) PRIMARY KEY,
+--    national_id int PRIMARY KEY,
 --    first_name VARCHAR(50),
 --    last_name VARCHAR(50),
 --    email VARCHAR(50) null,
@@ -113,15 +114,18 @@
 --    FOREIGN KEY (course_id) REFERENCES Education.course(course_id),
 --    FOREIGN KEY (preq_id) REFERENCES Education.course(course_id)
 --);
+
+/* LIBRARY */
+
 --create table Library.category(
---	category_id int primary key,
+--	category_id int identity primary key,
 --	category_name varchar(50) not null,
 --	description varchar(max) default null
 --)
 
 
 --create table Library.books (
---	book_id int primary key,
+--	book_id int primary key identity,
 --	book_title varchar(50),
 --	category_id int,
 --	publish_date datetime,
@@ -132,7 +136,7 @@
 --)
 
 --create table library.magazines (
---magazines_id INT primary key,
+--magazines_id INT identity primary key,
 --magazines_title varchar(50),
 --category_id int ,
 --publisher varchar(50),
@@ -142,26 +146,28 @@
 
 --)
 
+
 --create table Library.Issue_magasines(
---	issue_id int primary key,
+--	issue_id int identity primary key,
 --	magazines_id int foreign key references Library.magazines,
 --	issue_number int,
 --	volume_number int,
 --	publish_date datetime ,
---	decription varchar(max)
+--	decription varchar(max),
+-- status varchar(50) not null check(status in ('available','borrowed','disapear'))
 --) 
  
 -- create table library.articles(
---	article_id int primary key,
+--	article_id int identity primary key,
 --	article_title varchar(50) not null,
 --	abstract varchar(max),
 --	publish_date datetime,
 --	article_language varchar(50),
-
+--  status varchar(50) not null check(status in ('available','borrowed','disapear'))
 -- )
 
 -- create table library.author(
--- author_id int primary key,
+-- author_id int identity primary key,
 -- author_name varchar(50),
 -- author_lastname varchar(50),
 -- author_email varchar(50),
@@ -183,16 +189,16 @@
 -- )
 
 -- CREATE TABLE library.users (
---    user_id INT PRIMARY KEY,
---    person_id INT --foreign key refernces person, 
---    ,is_active BIT,
+--    user_id INT  identity PRIMARY KEY,
+--    person_id INT foreign key references Education.person(national_id)
+--    ,is_active BIT default 1,
 --    create_time DATETIME DEFAULT GETDATE(),
 --    user_role VARCHAR(50),
 --    CONSTRAINT chk_user_role CHECK (user_role IN ('student', 'employee', 'instructor'))
 --);
 
 --create table library.borrowings (
---	borrowing_id int primary key,
+--	borrowing_id int identity primary key,
 --	user_id int foreign key references library.users,
 --	item_id int ,
 --	item_type varchar(14) check(item_type in ('book','atricle','magazines')),
@@ -202,25 +208,27 @@
 --	status varchar(15) not null default 'borrowed' check(status in ('borrowd','returnd','overdue') )
 --)
 
-create table fines(
-	fine_id int primary key,
-	borrowing_id int ,
-	amount int,
-	fine_date datetime,
-	paid int,
-	payment_status varchar(50),
-	reason varchar(max) null,
-	foreign key (borrowing_id) references library.borrowings(borrowing_id)
-)
-create table reservation(
-	reserve_id int primary key,
-	user_id int,
-	item_id int,
-	item_type varchar(50) check(item_type in('book','magazines','articles')),
-	reservation_date datetime default getdate(),
-	status varchar(50) check(status in ('cancell','active','fullfild')),
-	expirt_date datetime not null
-	foreign key (user_id) references library.users(user_id) 
-)
+--create table library.fines(
+--	fine_id int identity primary key,
+--	borrowing_id int ,
+--	amount int,
+--	fine_date datetime,
+--	paid int,
+--	payment_status varchar(50) check(payment_status in ('paid','unpaid')),
+--	reason varchar(max) null,
+--	foreign key (borrowing_id) references library.borrowings(borrowing_id)
+--)
+
+
+--create table library.reservation(
+--	reserve_id int identity primary key,
+--	user_id int,
+--	item_id int,
+--	item_type varchar(50) check(item_type in('book','magazines','articles')),
+--	reservation_date datetime default getdate(),
+--	status varchar(50) check(status in ('cancell','active','fullfild')),
+--	expirt_date datetime not null
+--	foreign key (user_id) references library.users(user_id) 
+--)
 
 
