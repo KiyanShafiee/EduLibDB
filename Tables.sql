@@ -1,22 +1,44 @@
+
 CREATE TABLE Education.department (
     dept_name VARCHAR(50) PRIMARY KEY,
     building VARCHAR(50),
     budget FLOAT
 );
 
-CREATE TABLE Education.instructor (
-    instructor_id INT PRIMARY KEY,
-    national_id CHAR(11) UNIQUE,
+CREATE TABLE Education.degree_level (
+    level_id INT PRIMARY KEY,
+    name NVARCHAR(50)
+);
+
+CREATE TABLE Education.major (
+    major_id INT PRIMARY KEY,
+    name NVARCHAR(100),
     dept_name VARCHAR(50),
-    salary FLOAT,
-    employment_status INT DEFAULT 1, --1:Employed & 2:Retired
-    FOREIGN KEY (national_id) REFERENCES Education.person(national_id),
     FOREIGN KEY (dept_name) REFERENCES Education.department(dept_name)
 );
 
+CREATE TABLE Education.special_package (
+    package_id INT PRIMARY KEY,
+    name NVARCHAR(100),
+    major_id INT,
+    FOREIGN KEY (major_id) REFERENCES Education.major(major_id)
+);
+
+CREATE TABLE Education.instructor (
+    instructor_id INT PRIMARY KEY,
+    national_id INT UNIQUE,
+    dept_name VARCHAR(50),
+    salary FLOAT,
+    employment_status INT DEFAULT 1,
+    FOREIGN KEY (national_id) REFERENCES person(national_id),
+    FOREIGN KEY (dept_name) REFERENCES Education.department(dept_name)
+);
+
+
+/*education status 1-12 ok , 13 educated , 14 fired , 15 withdrow (cancelled edu) */
 CREATE TABLE Education.student (
     student_id INT PRIMARY KEY,
-    national_id CHAR(10) UNIQUE,
+    national_id INT UNIQUE,
     dept_name VARCHAR(50),
     major_id INT,
     advisor_id INT,
@@ -33,27 +55,6 @@ CREATE TABLE Education.student (
     FOREIGN KEY (package_id) REFERENCES Education.special_package(package_id)
 );
 
-
-CREATE TABLE Education.major (
-    major_id INT PRIMARY KEY,
-    name NVARCHAR(100),
-    dept_name VARCHAR(50),
-    FOREIGN KEY (dept_name) REFERENCES Education.department(dept_name)
-);
-
-CREATE TABLE Education.degree_level (
-    level_id INT PRIMARY KEY, --1:bachelor,2:master, 3:doctorate
-    name NVARCHAR(50)
-);
-
-CREATE TABLE Education.special_package (
-    package_id INT PRIMARY KEY,
-    name NVARCHAR(100),
-    major_id INT,
-    FOREIGN KEY (major_id) REFERENCES Education.major(major_id)
-);
-
-
 CREATE TABLE Education.course (
     course_id VARCHAR(10) PRIMARY KEY,
     title VARCHAR(100),
@@ -63,7 +64,6 @@ CREATE TABLE Education.course (
     FOREIGN KEY (dept_name) REFERENCES Education.department(dept_name)
 );
 
-
 CREATE TABLE Education.course_plan (
     course_id VARCHAR(10),
     major_id INT,
@@ -71,13 +71,12 @@ CREATE TABLE Education.course_plan (
     package_id INT NULL,
     suggested_term INT,
     type VARCHAR(20),
-    PRIMARY KEY (course_id, major_id, level_id, ISNULL(package_id, 0)),
+    PRIMARY KEY (course_id, major_id, level_id),
     FOREIGN KEY (course_id) REFERENCES Education.course(course_id),
     FOREIGN KEY (major_id) REFERENCES Education.major(major_id),
     FOREIGN KEY (level_id) REFERENCES Education.degree_level(level_id),
     FOREIGN KEY (package_id) REFERENCES Education.special_package(package_id)
 );
-
 
 CREATE TABLE Education.classroom (
     building VARCHAR(50),
@@ -159,7 +158,7 @@ CREATE TABLE Education.TA (
 );
 
 CREATE TABLE Education.employee (
-    national_id CHAR(10) PRIMARY KEY,
+    national_id INT PRIMARY KEY,
     role VARCHAR(50),
     salary FLOAT,
     FOREIGN KEY (national_id) REFERENCES person(national_id)
@@ -203,136 +202,136 @@ CREATE TABLE Education.log (
     description NVARCHAR(MAX)
 );
 
---CREATE TABLE person (
---    national_id int PRIMARY KEY,
---    first_name VARCHAR(50),
---    last_name VARCHAR(50),
---    email VARCHAR(50) null,
---    username VARCHAR(50),
---    password_hash varchar(50)
---);
+CREATE TABLE person (
+   national_id int PRIMARY KEY,
+   first_name VARCHAR(50),
+   last_name VARCHAR(50),
+   email VARCHAR(50) null,
+   username VARCHAR(50),
+   password_hash varchar(50)
+);
 /* LIBRARY */
 
---create table Library.category(
---	category_id int identity primary key,
---	category_name varchar(50) not null,
---	description varchar(max) default null
---)
+create table Library.category(
+	category_id int identity primary key,
+	category_name varchar(50) not null,
+	description varchar(max) default null
+)
 
 
---create table Library.books (
---	book_id int primary key identity,
---	book_title varchar(50),
---	category_id int,
---	publish_date datetime,
---	price   int ,
---	status varchar(20) check(status in ('available','borrowed','disapear')),
---	language varchar(20),
---	foreign key(category_id) references Library.category	
---)
+create table Library.books (
+	book_id int primary key identity,
+	book_title varchar(50),
+	category_id int,
+	publish_date datetime,
+	price   int ,
+	status varchar(20) check(status in ('available','borrowed','disapear')),
+	language varchar(20),
+	foreign key(category_id) references Library.category	
+)
 
---create table library.magazines (
---magazines_id INT identity primary key,
---magazines_title varchar(50),
---category_id int ,
---publisher varchar(50),
---magazines_language varchar(50),
---periodicity varchar(20) check(periodicity in('daily','monthly','weekly','yearly') ),
---FOREIGN KEY (category_id) REFERENCES library.category(category_id)
+create table library.magazines (
+magazines_id INT identity primary key,
+magazines_title varchar(50),
+category_id int ,
+publisher varchar(50),
+magazines_language varchar(50),
+periodicity varchar(20) check(periodicity in('daily','monthly','weekly','yearly') ),
+FOREIGN KEY (category_id) REFERENCES library.category(category_id)
 
---)
+)
 
 
---create table Library.Issue_magasines(
---	issue_id int identity primary key,
---	magazines_id int foreign key references Library.magazines,
---	issue_number int,
---	volume_number int,
---	publish_date datetime ,
---	decription varchar(max),
--- status varchar(50) not null check(status in ('available','borrowed','disapear'))
---) 
+create table Library.Issue_magasines(
+	issue_id int identity primary key,
+	magazines_id int foreign key references Library.magazines,
+	issue_number int,
+	volume_number int,
+	publish_date datetime ,
+	decription varchar(max),
+status varchar(50) not null check(status in ('available','borrowed','disapear'))
+) 
  
--- create table library.articles(
---	article_id int identity primary key,
---	article_title varchar(50) not null,
---	abstract varchar(max),
---	publish_date datetime,
---	article_language varchar(50),
---  status varchar(50) not null check(status in ('available','borrowed','disapear'))
--- )
+create table library.articles(
+	article_id int identity primary key,
+	article_title varchar(50) not null,
+	abstract varchar(max),
+	publish_date datetime,
+	article_language varchar(50),
+ status varchar(50) not null check(status in ('available','borrowed','disapear'))
+)
 
--- create table library.author(
--- author_id int identity primary key,
--- author_name varchar(50),
--- author_lastname varchar(50),
--- author_email varchar(50),
--- author_univercity varchar(50) null
--- )
+create table library.author(
+author_id int identity primary key,
+author_name varchar(50),
+author_lastname varchar(50),
+author_email varchar(50),
+author_univercity varchar(50) null
+)
  
  
--- create table library.article_author(
--- article_id int foreign key references library.articles,
--- author_id int foreign key references library.author,
--- primary key(author_id,article_id)
--- )
+create table library.article_author(
+article_id int foreign key references library.articles,
+author_id int foreign key references library.author,
+primary key(author_id,article_id)
+)
 
 
--- create table library.book_auhtor(
---	book_id int foreign key references library.books,
---	book_author int foreign key references library.author ,
---	primary key(book_id,book_author)
--- )
+create table library.book_auhtor(
+	book_id int foreign key references library.books,
+	book_author int foreign key references library.author ,
+	primary key(book_id,book_author)
+)
 
--- CREATE TABLE library.users (
---    user_id INT  identity PRIMARY KEY,
---    person_id INT foreign key references Education.person(national_id)
---    ,is_active BIT default 1,
---    create_time DATETIME DEFAULT GETDATE(),
---    user_role VARCHAR(50),
---    CONSTRAINT chk_user_role CHECK (user_role IN ('student', 'employee', 'instructor'))
---);
+CREATE TABLE library.users (
+   user_id INT  identity PRIMARY KEY,
+   person_id INT foreign key references Education.person(national_id)
+   ,is_active BIT default 1,
+   create_time DATETIME DEFAULT GETDATE(),
+   user_role VARCHAR(50),
+   CONSTRAINT chk_user_role CHECK (user_role IN ('student', 'employee', 'instructor'))
+);
 
---create table library.borrowings (
---	borrowing_id int identity primary key,
---	user_id int foreign key references library.users,
---	item_id int ,
---	item_type varchar(14) check(item_type in ('book','atricle','magazines')),
---	borrow_date datetime,
---	due_time datetime,
---	return_date datetime null,
---	status varchar(15) not null default 'borrowed' check(status in ('borrowd','returnd','overdue') )
---)
+create table library.borrowings (
+	borrowing_id int identity primary key,
+	user_id int foreign key references library.users,
+	item_id int ,
+	item_type varchar(14) check(item_type in ('book','atricle','magazines')),
+	borrow_date datetime,
+	due_time datetime,
+	return_date datetime null,
+	status varchar(15) not null default 'borrowed' check(status in ('borrowd','returnd','overdue') )
+)
 
---create table library.fines(
---	fine_id int identity primary key,
---	borrowing_id int ,
---	amount int,
---	fine_date datetime,
---	paid int,
---	payment_status varchar(50) check(payment_status in ('paid','unpaid')),
---	reason varchar(max) null,
---	foreign key (borrowing_id) references library.borrowings(borrowing_id)
---)
-
-
---create table library.reservation(
---	reserve_id int identity primary key,
---	user_id int,
---	item_id int,
---	item_type varchar(50) check(item_type in('book','magazines','articles')),
---	reservation_date datetime default getdate(),
---	status varchar(50) check(status in ('cancell','active','fullfild')),
---	expirt_date datetime not null
---	foreign key (user_id) references library.users(user_id) 
---)
+create table library.fines(
+	fine_id int identity primary key,
+	borrowing_id int ,
+	amount int,
+	fine_date datetime,
+	paid int,
+	payment_status varchar(50) check(payment_status in ('paid','unpaid')),
+	reason varchar(max) null,
+	foreign key (borrowing_id) references library.borrowings(borrowing_id)
+)
 
 
--- create TABLE library.Libeventlog(
---     log_id int IDENTITY PRIMARY KEY,
---     user_id int FOREIGN key REFERENCES library.users(user_id),
---     log_time datetime DEFAULT GETDATE(),
---     resone NVARCHAR(100)  not NULL
--- )
+create table library.reservation(
+	reserve_id int identity primary key,
+	user_id int,
+	item_id int,
+	item_type varchar(50) check(item_type in('book','magazines','articles')),
+	reservation_date datetime default getdate(),
+	status varchar(50) check(status in ('cancell','active','fullfild')),
+	expirt_date datetime not null
+	foreign key (user_id) references library.users(user_id) 
+)
+
+
+create TABLE library.Libeventlog(
+    log_id int IDENTITY PRIMARY KEY,
+    user_id int FOREIGN key REFERENCES library.users(user_id),
+    log_time datetime DEFAULT GETDATE(),
+    resone NVARCHAR(100)  not NULL
+)
 
 
