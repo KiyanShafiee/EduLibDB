@@ -1,3 +1,64 @@
+
+/* **************** Education **************** */
+CREATE PROCEDURE Education.sp_register_student
+    @student_id INT,
+    @national_id CHAR(10),
+    @dept_name VARCHAR(50),
+    @advisor_id INT,
+    @tot_cred INT
+AS
+BEGIN
+    IF Education.fn_is_valid_national_id(@national_id) = 0
+    BEGIN
+        RAISERROR(N'The national code is invalid.', 16, 1);
+        RETURN;
+    END
+
+    INSERT INTO Education.student (student_id, national_id, dept_name, advisor_id, tot_cred)
+    VALUES (@student_id, @national_id, @dept_name, @advisor_id, @tot_cred);
+
+    INSERT INTO Education.log (table_name, operation_type, description)
+    VALUES ('Education.student', 'INSERT', 'Added student ID = ' + CAST(@student_id AS VARCHAR));
+END;
+
+CREATE PROCEDURE Education.sp_change_advisor
+    @student_id INT,
+    @new_advisor_id INT
+AS
+BEGIN
+    UPDATE Education.student
+    SET advisor_id = @new_advisor_id
+    WHERE student_id = @student_id;
+
+    INSERT INTO Education.log (table_name, operation_type, description)
+    VALUES ('Education.student', 'UPDATE', 'Changed advisor for student ID = ' + CAST(@student_id AS VARCHAR));
+END;
+
+CREATE PROCEDURE Education.sp_drop_course
+    @student_id INT,
+    @course_id VARCHAR(10),
+    @sec_id VARCHAR(10),
+    @semester VARCHAR(10),
+    @year INT
+AS
+BEGIN
+    DELETE FROM Education.takes
+    WHERE student_id = @student_id
+    AND course_id = @course_id
+    AND sec_id = @sec_id
+    AND semester = @semester
+    AND year = @year;
+
+    INSERT INTO Education.log (table_name, operation_type, description)
+    VALUES ('Education.takes', 'DELETE', 'Dropped course ' + @course_id + ' for student ' + CAST(@student_id AS VARCHAR));
+END;
+
+
+
+
+
+
+/* **************** Library **************** */
 --/*sub_proceduers*/
 
 --go
@@ -103,7 +164,6 @@ end
 ----    INSERT INTO Education.log (table_name, operation_type, description)
 ----    VALUES ('Education.takes', 'DELETE', 'Dropped course ' + @course_id + ' for student ' + CAST(@student_id AS VARCHAR));
 ----END;
-
 
 ----create procedure create_lib_user(@person_id int)
 ----as 

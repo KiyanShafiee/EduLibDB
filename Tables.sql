@@ -107,6 +107,7 @@
 --    FOREIGN KEY (building, room_number) REFERENCES Education.classroom(building, room_number),
 --    FOREIGN KEY (time_slot_id) REFERENCES Education.time_slot(time_slot_id)
 --);
+
 --CREATE TABLE Education.prerequisite (
 --    course_id VARCHAR(10),
 --    preq_id VARCHAR(10),
@@ -230,5 +231,13 @@
 --	expirt_date datetime not null
 --	foreign key (user_id) references library.users(user_id) 
 --)
+
+
+-- create TABLE library.Libeventlog(
+--     log_id int IDENTITY PRIMARY KEY,
+--     user_id int FOREIGN key REFERENCES library.users(user_id),
+--     log_time datetime DEFAULT GETDATE(),
+--     resone NVARCHAR(100)  not NULL
+-- )
 
 
