@@ -64,72 +64,73 @@ END;
 
 /* **************** Library **************** */
 
-------go 
-------CREATE TRIGGER trg_insert_replace_fine
-------ON library.fines
-------INSTEAD OF INSERT
-------AS
-------BEGIN
 
-------    WITH ExistingPaid AS (
-------        SELECT borrowing_id, paid
-------        FROM library.fines
-------        WHERE borrowing_id IN (SELECT borrowing_id FROM inserted)
-------    )
-
-------    DELETE FROM library.fines
-------    WHERE borrowing_id IN (SELECT borrowing_id FROM inserted);
-
-------    INSERT INTO library.fines (borrowing_id, amount, fine_date, paid, payment_status, reason)
-------    SELECT
-------        i.borrowing_id,
-------        i.amount,
-------        i.fine_date,
-------        ISNULL(e.paid, i.paid),
-------        i.payment_status,
-------        i.reason
-------    FROM inserted i
-------    LEFT JOIN ExistingPaid as e ON i.borrowing_id = e.borrowing_id;
-------END;
+go
+CREATE TRIGGER trg_insert_replace_fine
+ON library.fines
+INSTEAD OF INSERT
+AS
+BEGIN
 
 
+   DELETE FROM library.fines
+   WHERE borrowing_id IN (SELECT borrowing_id FROM inserted);
 
---go
---CREATE TRIGGER trg_after_return_update_status
---ON library.borrowings
---AFTER UPDATE
---AS
---BEGIN
+   WITH ExistingPaid AS (
+       SELECT borrowing_id, paid
+       FROM library.fines
+       WHERE borrowing_id IN (SELECT borrowing_id FROM inserted)
+   )
+   INSERT INTO library.fines (borrowing_id, amount, fine_date, paid, payment_status, reason)
+   SELECT
+       i.borrowing_id,
+       i.amount,
+       i.fine_date,
+       ISNULL(e.paid, i.paid),
+       i.payment_status,
+       i.reason
+   FROM inserted i
+   LEFT JOIN ExistingPaid as e ON i.borrowing_id = e.borrowing_id;
+END;
 
---    IF EXISTS (SELECT 1 FROM inserted WHERE return_date IS NOT NULL)
---    BEGIN
---        UPDATE library.borrowings
---        SET status = 'returnd'
---        FROM library.borrowings b
---        JOIN inserted i ON b.borrowing_id = i.borrowing_id
---        WHERE i.return_date IS NOT NULL;
 
 
---        UPDATE b
---        SET b.status = 'available'
---        FROM library.books b
---        JOIN inserted i ON b.book_id = i.item_id
---        WHERE i.item_type = 'book' AND i.return_date IS NOT NULL;
+go
+CREATE TRIGGER trg_after_return_update_status
+ON library.borrowings
+AFTER UPDATE
+AS
+BEGIN
 
---        UPDATE m
---        SET m.status = 'available'
---        FROM library.Issue_magasines m
---        JOIN inserted i ON m.issue_id = i.item_id
---        WHERE i.item_type = 'magazines' AND i.return_date IS NOT NULL;
+   IF EXISTS (SELECT 1 FROM inserted WHERE return_date IS NOT NULL)
+   BEGIN
+       UPDATE library.borrowings
+       SET status = 'returnd'
+       FROM library.borrowings b
+       JOIN inserted i ON b.borrowing_id = i.borrowing_id
+       WHERE i.return_date IS NOT NULL;
+
+
+       UPDATE b
+       SET b.status = 'available'
+       FROM library.books b
+       JOIN inserted i ON b.book_id = i.item_id
+       WHERE i.item_type = 'book' AND i.return_date IS NOT NULL;
+
+       UPDATE m
+       SET m.status = 'available'
+       FROM library.Issue_magasines m
+       JOIN inserted i ON m.issue_id = i.item_id
+       WHERE i.item_type = 'magazines' AND i.return_date IS NOT NULL;
 
       
---         UPDATE a
---         SET a.status = 'available'
---         FROM library.articles a
---         JOIN inserted i ON a.article_id = i.item_id
---         WHERE i.item_type = 'article' AND i.return_date IS NOT NULL;
---    END
---END;
+        UPDATE a
+        SET a.status = 'available'
+        FROM library.articles a
+        JOIN inserted i ON a.article_id = i.item_id
+        WHERE i.item_type = 'article' AND i.return_date IS NOT NULL;
+   END
+END;
 
 
 
@@ -176,6 +177,17 @@ BEGIN
         RAISERROR('This article is not available for borrowing.', 16, 1);
         RETURN;
     END
+
+    IF EXISTS (
+        SELECT 1
+        FROM inserted i
+        JOIN library.borrowings a ON i.item_id = a.item_id and i.item_type = a.item_type and a.[status] = 'borrowd'
+    )
+    BEGIN
+        RAISERROR('This article is not available for borrowing.', 16, 1);
+        RETURN;
+    END
+
 
 
    INSERT INTO library.borrowings (user_id, item_id, item_type, borrow_date, due_time, return_date, status)

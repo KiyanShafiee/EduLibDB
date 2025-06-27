@@ -131,8 +131,11 @@ begin
 		when @status is null or @status = 'returnd'then 1 
 	else 0 end;
 end 
+
+
 go
-create function get_user_total_unpaid_fines (
+
+create function library.get_user_total_unpaid_fines (
 	@p_user_id int
 )
 returns int 
@@ -140,11 +143,14 @@ as
 begin 
 	declare @total_pay int ;
 	set @total_pay = 0;
-	select @total_pay = sum(f.paid)
+	select @total_pay = sum(f.amount)
 	from library.fines as f join Library.borrowings as b on f.borrowing_id = b.borrowing_id
 	where f.payment_status = 'unpaid' and b.user_id = @p_user_id
 	return @total_pay;
 end
+
+
+
 go
 create function library.get_top_3_most_borrowed_book_category()
 returns table

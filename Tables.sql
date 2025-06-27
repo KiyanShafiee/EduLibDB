@@ -225,7 +225,7 @@ create table Library.books (
 	category_id int,
 	publish_date datetime,
 	price   int ,
-	status varchar(20) check(status in ('available','borrowed','disapear')),
+	status varchar(20) check(status in ('available','disapear')),
 	language varchar(20),
 	foreign key(category_id) references Library.category	
 )
