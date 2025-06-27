@@ -176,6 +176,50 @@ group by c.category_id , c.category_name
 order by borrow_count desc
 )
 
+GO
+create VIEW frequenty_of_book_borrowing  as (
+select item_id , count(*) as frequency
+from library.borrowings
+where item_type = 'book'
+GROUP by item_id
+)
+
+go
+create function func_suggest_book (@user_id int) 
+returns @sug table(book_id int)
+as
+begin 
+    WITH his_book as
+    (select item_id as book_id 
+    from Library.borrowings  as b
+    where b.user_id = @user_id
+    and item_type = 'book'
+    ),student_same_book as
+    (select user_id 
+    from Library.borrowings
+    where item_type = 'book' and item_id in (select * from his_book) and user_id != @user_id
+    GROUP by user_id
+    having count(*)>1
+    ),not_borrowing_book as (
+    select item_id as book_id
+    FROM Library.borrowings as b 
+    where item_type = 'book' and user_id in (select * from student_same_book) and item_id not in (select * from his_book)
+    ), arranged_base_on_frequency as (
+    select top(3) book_id 
+    from not_borrowing_book as nb 
+    join frequenty_of_book_borrowing as fb on fb.item_id = nb.book_id
+    ORDER by fb.frequency desc 
+    )
+    INSERT into @sug (book_id)
+    select * from arranged_base_on_frequency
+    RETURN
+end 
+
+
+
+
+
+
 
 
 
