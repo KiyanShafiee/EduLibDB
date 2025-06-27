@@ -1,4 +1,4 @@
-go
+﻿go
 /* **************** Education **************** */
 CREATE FUNCTION Education.fn_calculate_gpa (@student_id INT)
 RETURNS FLOAT
@@ -81,14 +81,19 @@ AND c.suggested_term = (
     WHERE student_id = @student_id AND education_status BETWEEN 1 AND 12
 );
 go
-CREATE FUNCTION Education.fn_is_valid_national_id(@NationalID CHAR(10))
+
+
+CREATE FUNCTION Education.fn_is_valid_national_id(@NationalID INT)
 RETURNS BIT
 AS
 BEGIN
 	DECLARE @res BIT = 1;
 
-	IF LEN(@NationalID) <> 10 OR ISNUMERIC(@NationalID + '.0e0') = 0 OR 
-	   @NationalID IN ('0000000000','1111111111','2222222222','3333333333',
+	-- تبدیل به رشته با 10 رقم
+	DECLARE @NationalIDStr CHAR(10) = RIGHT('0000000000' + CAST(@NationalID AS VARCHAR(10)), 10);
+
+	IF LEN(@NationalIDStr) <> 10 OR ISNUMERIC(@NationalIDStr + '.0e0') = 0 OR 
+	   @NationalIDStr IN ('0000000000','1111111111','2222222222','3333333333',
 					   '4444444444','5555555555','6666666666','7777777777',
 					   '8888888888','9999999999') 
 	BEGIN
@@ -96,20 +101,91 @@ BEGIN
 	END
 
 	DECLARE @b INT = (
-		10*SUBSTRING(@NationalID,1,1) + 9*SUBSTRING(@NationalID,2,1) + 
-		8*SUBSTRING(@NationalID,3,1) + 7*SUBSTRING(@NationalID,4,1) +
-		6*SUBSTRING(@NationalID,5,1) + 5*SUBSTRING(@NationalID,6,1) +
-		4*SUBSTRING(@NationalID,7,1) + 3*SUBSTRING(@NationalID,8,1) +
-		2*SUBSTRING(@NationalID,9,1)
+		10*SUBSTRING(@NationalIDStr,1,1) + 9*SUBSTRING(@NationalIDStr,2,1) + 
+		8*SUBSTRING(@NationalIDStr,3,1) + 7*SUBSTRING(@NationalIDStr,4,1) +
+		6*SUBSTRING(@NationalIDStr,5,1) + 5*SUBSTRING(@NationalIDStr,6,1) +
+		4*SUBSTRING(@NationalIDStr,7,1) + 3*SUBSTRING(@NationalIDStr,8,1) +
+		2*SUBSTRING(@NationalIDStr,9,1)
 	) % 11;
 
-	DECLARE @ctrl TINYINT = SUBSTRING(@NationalID,10,1);
+	DECLARE @ctrl TINYINT = SUBSTRING(@NationalIDStr,10,1);
 
 	IF (@b < 2 AND @ctrl != @b) OR (@b >= 2 AND @ctrl != 11 - @b)
 		SET @res = 0;
 
 	RETURN @res;
 END;
+
+
+CREATE FUNCTION Education.fn_suggest_courses (
+    @student_id INT
+)
+RETURNS TABLE
+AS
+RETURN
+(
+    WITH student_info AS (
+        SELECT 
+            current_term,
+            major_id,
+            level_id
+        FROM Education.student
+        WHERE student_id = @student_id
+    ),
+    avg_grade_calc AS (
+        SELECT 
+            AVG(CAST(grade AS FLOAT)) AS avg_grade
+        FROM Education.takes
+        WHERE student_id = @student_id
+    ),
+    max_units_calc AS (
+        SELECT 
+            CASE 
+                WHEN ISNULL(avg_grade, 20) < 12 THEN 14
+                ELSE 20
+            END AS max_units
+        FROM avg_grade_calc
+    ),
+    passed_courses AS (
+        SELECT course_id
+        FROM Education.takes
+        WHERE student_id = @student_id AND grade >= 10
+    ),
+    all_suggestions AS (
+        SELECT 
+            c.course_id, 
+            c.title, 
+            c.credits, 
+            cp.suggested_term,
+            CASE 
+                WHEN cp.suggested_term < si.current_term THEN 1
+                WHEN cp.suggested_term = si.current_term THEN 2
+                ELSE 3
+            END AS priority
+        FROM Education.course_plan cp
+        JOIN Education.course c ON c.course_id = cp.course_id
+        CROSS JOIN student_info si
+        WHERE cp.major_id = si.major_id
+          AND cp.level_id = si.level_id
+          AND cp.course_id NOT IN (SELECT course_id FROM passed_courses)
+    ),
+    ordered_courses AS (
+        SELECT *,
+               SUM(credits) OVER (ORDER BY priority, suggested_term, course_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS running_credits
+        FROM all_suggestions
+    ),
+    final_courses AS (
+        SELECT *
+        FROM ordered_courses
+        WHERE running_credits <= (SELECT max_units FROM max_units_calc)
+    )
+    SELECT 
+        course_id,
+        title,
+        credits,
+        suggested_term
+    FROM final_courses
+);
 
 
 /* **************** Library **************** */

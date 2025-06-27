@@ -1,4 +1,4 @@
-CREATE DATABASE EduLibDB;
+CREATE DATABASE EduLibDB3;
 
 Create schema Education;
 
