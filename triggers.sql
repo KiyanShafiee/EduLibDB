@@ -59,6 +59,22 @@ END;
 
 
 
+CREATE TRIGGER trg_check_national_id
+ON person
+AFTER INSERT, UPDATE
+AS
+BEGIN
+	IF EXISTS (
+		SELECT 1
+		FROM inserted
+		WHERE Education.fn_is_valid_national_id(national_id) = 0
+	)
+	BEGIN
+		RAISERROR('national code is not ok!', 16, 1);
+		ROLLBACK TRANSACTION;
+	END
+END;
+
 
 
 

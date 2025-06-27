@@ -1,0 +1,116 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\Create db and tables.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Create db and tables.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\functions.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:functions.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\procedure.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:procedure.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\Shemas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Shemas.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\triggers.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:triggers.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\Tables.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Tables.sql||{B5A506EB-11BE-4782-9A18-21265C2CA0B4}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Tables.sql - (local)\\SQLEXPRESS.master (KIYAN\\asus (76))",
+              "DocumentMoniker": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\Tables.sql",
+              "RelativeDocumentMoniker": "Tables.sql",
+              "ToolTip": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\Tables.sql - (local)\\SQLEXPRESS.master (KIYAN\\asus (76))",
+              "RelativeToolTip": "Tables.sql - (local)\\SQLEXPRESS.master (KIYAN\\asus (76))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-06-25T17:13:48.769Z",
+              "EditorCaption": " - (local)\\SQLEXPRESS.master (KIYAN\\asus (76))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Shemas.sql - (local)\\SQLEXPRESS.master (KIYAN\\asus (75))",
+              "DocumentMoniker": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\Shemas.sql",
+              "RelativeDocumentMoniker": "Shemas.sql",
+              "ToolTip": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\Shemas.sql - (local)\\SQLEXPRESS.master (KIYAN\\asus (75))",
+              "RelativeToolTip": "Shemas.sql - (local)\\SQLEXPRESS.master (KIYAN\\asus (75))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-06-25T17:13:48.395Z",
+              "EditorCaption": " - (local)\\SQLEXPRESS.master (KIYAN\\asus (75))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "triggers.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (77))",
+              "DocumentMoniker": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\triggers.sql",
+              "RelativeDocumentMoniker": "triggers.sql",
+              "ToolTip": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\triggers.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (77))",
+              "RelativeToolTip": "triggers.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (77))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-06-25T17:13:49.151Z",
+              "EditorCaption": " - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (77))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "procedure.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (74))",
+              "DocumentMoniker": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\procedure.sql",
+              "RelativeDocumentMoniker": "procedure.sql",
+              "ToolTip": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\procedure.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (74))",
+              "RelativeToolTip": "procedure.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (74))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-06-25T17:13:48.011Z",
+              "EditorCaption": " - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (74))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "functions.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (73))",
+              "DocumentMoniker": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\functions.sql",
+              "RelativeDocumentMoniker": "functions.sql",
+              "ToolTip": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\functions.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (73))",
+              "RelativeToolTip": "functions.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (73))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-06-25T17:13:47.643Z",
+              "EditorCaption": " - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (73))"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Create db and tables.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (72))",
+              "DocumentMoniker": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\Create db and tables.sql",
+              "RelativeDocumentMoniker": "Create db and tables.sql",
+              "ToolTip": "C:\\Users\\asus\\OneDrive\\Desktop\\DB project\\EduLibDB\\Create db and tables.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (72))",
+              "RelativeToolTip": "Create db and tables.sql - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (72))",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-06-25T17:13:47.267Z",
+              "EditorCaption": " - (local)\\SQLEXPRESS.EduLibDB (KIYAN\\asus (72))"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,3 +1,13 @@
+CREATE TABLE person (
+   national_id int PRIMARY KEY,
+   first_name VARCHAR(50),
+   last_name VARCHAR(50),
+   email VARCHAR(50) null,
+   username VARCHAR(50),
+   password_hash varchar(50)
+);
+
+
 
 CREATE TABLE Education.department (
     dept_name VARCHAR(50) PRIMARY KEY,
@@ -34,7 +44,6 @@ CREATE TABLE Education.instructor (
     FOREIGN KEY (dept_name) REFERENCES Education.department(dept_name)
 );
 
-
 /*education status 1-12 ok , 13 educated , 14 fired , 15 withdrow (cancelled edu) */
 CREATE TABLE Education.student (
     student_id INT PRIMARY KEY,
@@ -47,7 +56,7 @@ CREATE TABLE Education.student (
     current_term INT,
     level_id INT,
     package_id INT NULL,
-    FOREIGN KEY (national_id) REFERENCES person(national_id),
+    FOREIGN KEY (national_id) REFERENCES dbo.person(national_id),
     FOREIGN KEY (dept_name) REFERENCES Education.department(dept_name),
     FOREIGN KEY (major_id) REFERENCES Education.major(major_id),
     FOREIGN KEY (advisor_id) REFERENCES Education.instructor(instructor_id),
@@ -202,14 +211,7 @@ CREATE TABLE Education.log (
     description NVARCHAR(MAX)
 );
 
-CREATE TABLE person (
-   national_id int PRIMARY KEY,
-   first_name VARCHAR(50),
-   last_name VARCHAR(50),
-   email VARCHAR(50) null,
-   username VARCHAR(50),
-   password_hash varchar(50)
-);
+
 /* LIBRARY */
 
 create table Library.category(
