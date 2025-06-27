@@ -60,7 +60,9 @@ VALUES
 ('Data Structures', 7, '2019-05-20', 180000, 'available', 'English'),
 ('Advanced C++', 7, '2021-03-15', 200000, 'available', 'English'),
 ('Database Design', 6, '2018-09-12', 175000, 'available', 'English'),
-('Machine Learning', 6, '2022-11-05', 220000, 'available', 'English');
+('Machine Learning', 6, '2022-11-05', 220000, 'available', 'English'),
+('advance programing', 6, '2023-11-05', 220000, 'available', 'English'),
+('fabel', 2, '2023-11-05', 220000, 'available', 'English');
 
 INSERT INTO library.author (author_name, author_lastname, author_email, author_univercity)
 VALUES 
@@ -83,10 +85,15 @@ VALUES
 INSERT INTO library.borrowings (user_id, item_id, item_type, borrow_date, due_time, return_date, status)
 VALUES 
 (1, 7, 'book', '2024-01-10', '2024-01-20', '2024-01-19', 'returnd'),
-(1, 8, 'book', '2024-03-15', '2024-03-25', NULL, 'borrowd'),
-(2, 9, 'book', '2024-02-10', '2024-02-20', NULL, 'borrowd'),
-(3, 10, 'book', '2024-02-12', '2024-02-22', NULL, 'borrowd'),
-(4, 11, 'book', '2024-02-14', '2024-02-24', NULL, 'borrowd');
+(1, 8, 'book', '2024-03-15', '2024-03-25', NULL, 'borrowed'),
+(2, 9, 'book', '2024-02-10', '2024-02-20', NULL, 'borrowed'),
+(3, 10, 'book', '2024-02-12', '2024-02-22', NULL, 'borrowed'),
+(4, 11, 'book', '2024-02-14', '2024-02-24', NULL, 'borrowed'),
+(1, 14, 'book', '2025-02-14', '2025-02-24', '2025-01-24', 'returnd'),
+(1, 15, 'book', '2025-02-14', '2025-02-24', '2025-01-24', 'returnd'),
+(2, 14, 'book', '2025-02-14', '2025-02-24', '2025-01-24', 'returnd'),
+(2, 15, 'book', '2025-03-14', '2025-03-24', '2025-03-24', 'returnd');
+
 
 
 

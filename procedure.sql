@@ -83,7 +83,7 @@ go
 create procedure library.change_article_state_to_borrowed (@article_id int)
 as 
 begin
-	update Library.books
+	update Library.articles
 	set status = 'borrowed'
 	where article_id = @article_id
 end
@@ -115,6 +115,8 @@ begin
 	set status = 'available'
 	where book_id =@article_id
 end
+
+
 go
 create procedure library.create_lib_user(@person_id int)
 as 
@@ -136,16 +138,17 @@ end
 
 
 
+
 go
 create procedure library.borrrow_item (@item_id int , @item_type varchar(20),@user_id int)
 as
 begin 
 	if @item_type = 'book'
-		change_book_state_to_borrowed(@item_id)
+		exec library.change_book_state_to_borrowed @item_id
 	else if @item_type = 'magazine'
-		change_magazines_state_to_borrowed(@item_id)
+		exec library.change_magazines_state_to_borrowed @item_id
 	else if @item_type = 'article'
-		change_article_state_to_borrowed(@item_id)
+		exec library.change_article_state_to_borrowed @item_id
 	else 
 	begin
 	RAISERROR('book type not defined !',16,1)
@@ -182,7 +185,7 @@ create procedure library.poc_calculate_fine
 as  
 begin 
 	insert into Library.fines (borrowing_id,amount,fine_date,paid,payment_status,reason) 
-	select borrowing_id ,DATEDIFF(DAY,GETDATE(),due_time) ,GETDATE(),0,'unpaid','overdued'
+	select borrowing_id ,DATEDIFF(DAY,due_time,GETDATE()) * 500 ,GETDATE(),0,'unpaid','overdued'
 	from Library.borrowings
 	where getdate() > due_time and status != 'returnd'
 end

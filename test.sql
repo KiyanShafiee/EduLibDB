@@ -5,12 +5,26 @@
 
 -- select * from library.get_top_3_most_borrowed_magazines_category()
 
+-- select * from func_suggest_book(1);
 
+-- --error
+-- exec library.create_lib_user 1000000011
 
-select * from func_suggest_book(1)
+-- --new person
+-- insert into person (national_id,first_name,last_name,email,username,password_hash)
+-- VALUES
+-- (1000000060,'alireza','roholahi','gmilvp,','fjksldf','fklsdjflsdfjksl');
 
+-- exec library.create_lib_user 1000000060
 
-INSERT INTO library.borrowings (user_id, item_id, item_type, borrow_date, due_time, return_date, status)
-VALUES 
-(5, 7, 'book', '2024-02-14', '2024-02-24', '2024-01-24', 'returnd'),
-(1, 10, 'book', '2025-02-14', '2025-02-24', '2025-01-24', 'returnd');
+-- SELECT * from Library.Issue_magasines
+
+-- exec library.borrrow_item 4,'magazine',4 
+
+-- select * from library.borrowings 
+
+-- exec library.reserve_item 3 ,'magazine',3,'2025-07-03'
+-- select * from Library.reservation
+
+-- exec library.poc_calculate_fine
+-- select * from library.fines

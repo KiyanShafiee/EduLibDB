@@ -225,7 +225,7 @@ create table Library.books (
 	category_id int,
 	publish_date datetime,
 	price   int ,
-	status varchar(20) check(status in ('available','disapear')),
+	status varchar(20) check(status in ('available','borrowed','disapear')),
 	language varchar(20),
 	foreign key(category_id) references Library.category	
 )
@@ -296,11 +296,11 @@ create table library.borrowings (
 	borrowing_id int identity primary key,
 	user_id int foreign key references library.users,
 	item_id int ,
-	item_type varchar(14) check(item_type in ('book','atricle','magazines')),
+	item_type varchar(14) check(item_type in ('book','atricle','magazine')),
 	borrow_date datetime,
 	due_time datetime,
 	return_date datetime null,
-	status varchar(15) not null default 'borrowed' check(status in ('borrowd','returnd','overdue') )
+	status varchar(15) not null default 'borrowed' check(status in ('borrowed','returnd','overdue') )
 )
 
 create table library.fines(
@@ -319,7 +319,7 @@ create table library.reservation(
 	reserve_id int identity primary key,
 	user_id int,
 	item_id int,
-	item_type varchar(50) check(item_type in('book','magazines','articles')),
+	item_type varchar(50) check(item_type in('book','magazine','article')),
 	reservation_date datetime default getdate(),
 	status varchar(50) check(status in ('cancell','active','fullfild')),
 	expirt_date datetime not null
