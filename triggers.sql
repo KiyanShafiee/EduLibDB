@@ -150,7 +150,8 @@ END;
 
 
 
-
+go 
+drop TRIGGER trg_before_insert_borrowing_check_availability
 go 
 CREATE TRIGGER trg_before_insert_borrowing_check_availability
 ON library.borrowings
@@ -167,6 +168,7 @@ BEGIN
    )
    BEGIN
        RAISERROR('This book is not available for borrowing.', 16, 1);
+       ROLLBACK tran
        RETURN;
    END
 
@@ -179,6 +181,7 @@ BEGIN
    )
    BEGIN
        RAISERROR('This magazine is not available for borrowing.', 16, 1);
+       ROLLBACK tran
        RETURN;
    END
 
@@ -191,6 +194,7 @@ BEGIN
     )
     BEGIN
         RAISERROR('This article is not available for borrowing.', 16, 1);
+        ROLLBACK tran
         RETURN;
     END
 
@@ -201,6 +205,7 @@ BEGIN
     )
     BEGIN
         RAISERROR('This article is not available for borrowing.', 16, 1);
+        ROLLBACK tran
         RETURN;
     END
 

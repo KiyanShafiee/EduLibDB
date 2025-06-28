@@ -19,7 +19,7 @@
 
 -- SELECT * from Library.Issue_magasines
 
--- exec library.borrrow_item 4,'magazine',4 
+exec library.borrrow_item 13,'book',2 
 
 -- select * from library.borrowings 
 
@@ -28,7 +28,7 @@
 
 -- exec library.poc_calculate_fine
 -- select * from library.fines
-SELECT * FROM Education.fn_suggest_courses(40225689)
+-- SELECT * FROM Education.fn_suggest_courses(40225689)
 
-SELECT * FROM Education.fn_suggest_courses(40234473); -- شماره دانشجویی را تغییر بده
+-- SELECT * FROM Education.fn_suggest_courses(40234473); -- شماره دانشجویی را تغییر بده
 
