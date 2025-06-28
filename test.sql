@@ -1,4 +1,4 @@
-﻿-- print(library.is_item_available(21,'book'))
+-- print(library.is_item_available(21,'book'))
 -- print( library.get_user_total_unpaid_fines(1))
 
 -- select * from library.get_top_3_most_borrowed_book_category()
@@ -19,7 +19,7 @@
 
 -- SELECT * from Library.Issue_magasines
 
--- exec library.borrrow_item 4,'magazine',4 
+exec library.borrrow_item 13,'book',2 
 
 -- select * from library.borrowings 
 
@@ -36,7 +36,7 @@
 
 SELECT * FROM Education.fn_suggest_courses(40225689)
 
-SELECT * FROM Education.fn_suggest_courses(40234473); -- شماره دانشجویی را تغییر بده
+-- SELECT * FROM Education.fn_suggest_courses(40234473); -- شماره دانشجویی را تغییر بده
 
 
 

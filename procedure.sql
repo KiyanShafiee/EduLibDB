@@ -138,28 +138,34 @@ end
 
 
 
-
+go 
+drop proc library.borrrow_item
 go
 create procedure library.borrrow_item (@item_id int , @item_type varchar(20),@user_id int)
 as
-begin 
-	if @item_type = 'book'
-		exec library.change_book_state_to_borrowed @item_id
-	else if @item_type = 'magazine'
-		exec library.change_magazines_state_to_borrowed @item_id
-	else if @item_type = 'article'
-		exec library.change_article_state_to_borrowed @item_id
-	else 
-	begin
-	RAISERROR('book type not defined !',16,1)
-	return
-	end
-	if(NOT EXISTS( SELECT 1 FROM Library.borrowings WHERE item_id =@item_id and item_type = @item_type )and  exists(select 1 from Library.users where is_active =1 and user_id = @user_id ))
-	BEGIN
-	insert into Library.borrowings (user_id,item_id,item_type,borrow_date,due_time,return_date) values 
-	(@user_id,@item_id,@item_type,getdate(),DATEADD(DAY , 14 , getdate()),null)
-	end
-	return 
+begin
+		begin TRANSACTION tran_borrow
+			if @item_type = 'book'
+				exec library.change_book_state_to_borrowed @item_id
+			else if @item_type = 'magazine'
+				exec library.change_magazines_state_to_borrowed @item_id
+			else if @item_type = 'article'
+				exec library.change_article_state_to_borrowed @item_id
+			else 
+			begin
+				RAISERROR('book type not defined !',16,1)
+				ROLLBACK tran tran_borrow
+				return
+			end
+			if(NOT EXISTS( SELECT 1 FROM Library.borrowings WHERE item_id =@item_id and item_type = @item_type )and  exists(select 1 from Library.users where is_active =1 and user_id = @user_id ))
+			BEGIN
+			insert into Library.borrowings (user_id,item_id,item_type,borrow_date,due_time,return_date) values 
+			(@user_id,@item_id,@item_type,getdate(),DATEADD(DAY , 14 , getdate()),null)
+			end
+			else 
+				ROLLBACK tran tran_borrow
+			commit TRAN tran_borrow
+		
 end
 
 
@@ -191,9 +197,34 @@ begin
 end
 
 
+go 
+drop proc library.proc_suggest_book
+go 
+create procedure library.proc_suggest_book (@user_id int) 
+as
+begin 
+    WITH his_book as
+    (select item_id as book_id 
+    from Library.borrowings  as b
+    where b.user_id = @user_id
+    and item_type = 'book'
+    ),student_same_book as
+    (select user_id 
+    from Library.borrowings
+    where item_type = 'book' and item_id in (select * from his_book) and user_id != @user_id
+    GROUP by user_id
+    having count(*)>1
+    ),not_borrowing_book as (
+    select item_id as book_id
+    FROM Library.borrowings as b 
+    where item_type = 'book' and user_id in (select * from student_same_book) and item_id not in (select * from his_book)
+    ), arranged_base_on_frequency as (
+    select top(3) book_id 
+    from not_borrowing_book as nb 
+    join frequenty_of_book_borrowing as fb on fb.item_id = nb.book_id
+    ORDER by fb.frequency desc 
+    )
+select a.book_id , b.book_title from arranged_base_on_frequency as a
+	join library.books as b on a.book_id = b.book_id 
 
-
-
-
-
-
+end 
