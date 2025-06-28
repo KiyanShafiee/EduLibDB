@@ -8,6 +8,28 @@ DELETE from library.category
 delete from Library.author
 DELETE from Library.Issue_magasines
 
+DELETE FROM Education.participation;
+DELETE FROM Education.research_project;
+DELETE FROM Education.internship;
+DELETE FROM Education.employee;
+DELETE FROM Education.TA;
+DELETE FROM Education.teaches;
+DELETE FROM Education.section;
+DELETE FROM Education.time_slot;
+DELETE FROM Education.classroom;
+DELETE FROM Education.takes;
+DELETE FROM Education.corequisite;
+DELETE FROM Education.prerequisite;
+DELETE FROM Education.course_plan;
+DELETE FROM Education.course;
+DELETE FROM Education.special_package;
+DELETE FROM Education.student;
+DELETE FROM Education.instructor;
+DELETE FROM Education.degree_level;
+DELETE FROM Education.major;
+DELETE FROM Education.department;
+DELETE FROM person;
+
 
 INSERT INTO person (national_id, first_name, last_name, email, username, password_hash)
 VALUES 
@@ -141,85 +163,83 @@ VALUES
 (5, 5, 'magazines', 'active', '2024-07-20');
 
 
-
 ----- ******* education dataset ****** -------
-
-
+-- درج داده‌ها در جدول person
 INSERT INTO person (national_id, first_name, last_name, email, username, password_hash)
 VALUES
-(1274444608, 'Ali', 'Ahmadi', 'ali.ahmadi@test.com', 'ali.ahmadi', 'hashedpass1'),
-(1274444675, 'Sara', 'Hosseini', 'sara.hosseini@test.com', 'sara.hosseini', 'hashedpass2'),
-(1234896575, 'Reza', 'Mohammadi', 'reza.mohammadi@test.com', 'reza.mohammadi', 'hashedpass3'),
-(1284725286, 'Maryam', 'Karimi', 'maryam.karimi@test.com', 'maryam.karimi', 'hashedpass4'),
-(1141137399, 'Hossein', 'Safari', 'hossein.safari@test.com', 'hossein.safari', 'hashedpass5');
+(1274444608, N'علی', N'احمدی', 'ali.ahmadi@test.com', 'ali.ahmadi', 'hashedpass1'),
+(1274444675, N'سارا', N'حسینی', 'sara.hosseini@test.com', 'sara.hosseini', 'hashedpass2'),
+(1234896575, N'رضا', N'محمدی', 'reza.mohammadi@test.com', 'reza.mohammadi', 'hashedpass3'),
+(1284725286, N'مریم', N'کریمی', 'maryam.karimi@test.com', 'maryam.karimi', 'hashedpass4'),
+(1000000052, N'حسین', N'صفری', 'hossein.safari@test.com', 'hossein.safari', 'hashedpass5'),
+(1000000044, N'محمد', N'رضایی', 'mohammad.rezaei@test.com', 'mohammad.rezaei', 'hashedpass6'),
+(1000000036, N'فاطمه', N'علوی', 'fateme.alavi@test.com', 'fateme.alavi', 'hashedpass7'),
+(1000000028, N'نیما', N'یوسفی', 'nima.yousefi@test.com', 'nima.yousefi', 'hashedpass8');
 
-
-
-INSERT INTO Education.major (major_id, name)
-VALUES (1, 'Software Engineering'), (2, 'Information Technology'), (3, 'Cybersecurity');
-
+-- درج داده‌ها در جدول department
 INSERT INTO Education.department (dept_name, building, budget)
 VALUES
-('CS', 'Computer and electric', 1000000),
-('Math', 'Mathematics',900000),
-('Physics', 'Physics', 1000000),
-('General', 'General Studies', 5000000),
-('Electrical', 'Electrical Engineering',2000000),
-('IT', 'Information Technology',1000000),
-('Security', 'Cybersecurity',1000000);
+(N'CS', N'رایانه و برق', 1000000),
+(N'Math', N'ریاضی', 900000),
+(N'Physics', N'فیزیک', 1000000),
+(N'General', N'مطالعات عمومی', 5000000),
+(N'Electrical', N'مهندسی برق', 2000000),
+(N'IT', N'فناوری اطلاعات', 1000000),
+(N'Security', N'امنیت سایبری', 1000000);
 
-
-INSERT INTO Education.student (student_id, national_id, dept_name, major_id, advisor_id, tot_cred, education_status, current_term, level_id)
-VALUES
-(40234473, 1274444608, 'CS', 1, NULL, 20, 1, 6, 1),
-(40225689, 1284725286, 'CS', 1, NULL, 50, 1, 4, 1),
-(40258698, 1274444675, 'CS', 1, NULL, 80, 1, 7, 1);
-
-
-INSERT INTO Education.special_package (package_id, name, major_id)
-VALUES
-(1, 'Artificial Intelligence Package', 1),
-(2, 'Software Engineering Package', 1),
-(3, 'IT Management Package', 2),
-(4, 'Cybersecurity Package', 3);
-
-
-INSERT INTO Education.course (course_id, title, dept_name, credits, suggested_term)
-VALUES
-('CS101', 'Introduction to Computer Science', 'CS', 3, 1),
-('MATH101', 'Calculus I', 'Math', 3, 1),
-('PHYS101', 'Physics I', 'Physics', 3, 1),
-('ENG101', 'English I', 'General', 2, 1),
-('ISLAM101', 'Islamic Studies I', 'General', 2, 1),
-
-('CS102', 'Programming Fundamentals', 'CS', 3, 2),
-('MATH102', 'Calculus II', 'Math', 3, 2),
-('PHYS102', 'Physics II', 'Physics', 3, 2),
-('ENG102', 'English II', 'General', 2, 2),
-('ISLAM102', 'Islamic Studies II', 'General', 2, 2),
-
-('CS201', 'Data Structures', 'CS', 3, 3),
-('MATH201', 'Discrete Mathematics', 'Math', 3, 3),
-('ELEC101', 'Electrical Circuits', 'Electrical', 3, 3),
-('GEN101', 'General Psychology', 'General', 2, 3),
-
-('CS202', 'Algorithms', 'CS', 3, 4),
-('MATH202', 'Linear Algebra', 'Math', 3, 4),
-('CS203', 'Computer Organization', 'CS', 3, 4),
-('ELEC102', 'Digital Logic Design', 'Electrical', 3, 4),
-('GEN102', 'Critical Thinking', 'General', 2, 4),
-
-('CS301', 'Operating Systems', 'CS', 3, 5),
-('CS302', 'Database Systems', 'CS', 3, 5),
-('CS303', 'Software Engineering Principles', 'CS', 3, 5),
-('NET301', 'Computer Networks', 'CS', 3, 5),
-('GEN103', 'Entrepreneurship', 'General', 2, 5);
-
-
+-- درج داده‌ها در جدول degree_level
 INSERT INTO Education.degree_level (level_id, name)
 VALUES
-(1, 'karshenasi');
+(1, N'کارشناسی'),
+(2, N'کارشناسی ارشد');
 
+-- درج داده‌ها در جدول major
+INSERT INTO Education.major (major_id, name, dept_name)
+VALUES
+(1, N' مهندسی کامیپوتر', N'CS'),
+(2, N'مهدسی برق', N'IT'),
+(3, N'مهندسی معماری', N'Security');
+
+-- درج داده‌ها در جدول instructor
+INSERT INTO Education.instructor (instructor_id, national_id, dept_name, salary, employment_status)
+VALUES
+(1, 1234896575, N'CS', 28000000, 1),
+(2, 1000000052, N'IT', 25000000, 1),
+(3, 1000000028, N'Security', 27000000, 1);
+
+-- درج داده‌ها در جدول special_package
+INSERT INTO Education.special_package (package_id, name, major_id)
+VALUES
+(1, N'بسته هوش مصنوعی', 1),
+(2, N'بسته مهندسی نرم‌افزار', 1),
+(3, N'بسته مدیریت فناوری اطلاعات', 2),
+(4, N'بسته امنیت سایبری', 3);
+
+-- درج داده‌ها در جدول student
+INSERT INTO Education.student (student_id, national_id, dept_name, major_id, advisor_id, tot_cred, education_status, current_term, level_id, package_id)
+VALUES
+(40234473, 1274444608, N'CS', 1, 1, 20, 1, 6, 1, 2), -- در حال تحصیل
+(40225689, 1284725286, N'IT', 2, 2, 50, 13, 8, 1, 3), -- فارغ‌التحصیل
+(40258698, 1274444675, N'Security', 3, 3, 80, 14, 7, 1, 4), -- انصرافی
+(40298765, 1000000044, N'CS', 1, 1, 30, 15, 5, 1, 2); -- اخراجی
+
+
+
+-- درج داده‌ها در جدول course
+INSERT INTO Education.course (course_id, title, dept_name, credits, suggested_term)
+VALUES
+('CS101', N'مقدمه‌ای بر علوم کامپیوتر', N'CS', 3, 1),
+('MATH101', N'حساب دیفرانسیل و انتگرال ۱', N'Math', 3, 1),
+('PHYS101', N'فیزیک ۱', N'Physics', 3, 1),
+('CS102', N'مبانی برنامه‌نویسی', N'CS', 3, 2),
+('MATH102', N'حساب دیفرانسیل و انتگرال ۲', N'Math', 3, 2),
+('CS201', N'ساختمان داده‌ها', N'CS', 3, 3),
+('CS301', N'سیستم‌های عامل', N'CS', 3, 5),
+('AI401', N'مقدمه‌ای بر هوش مصنوعی', N'CS', 3, 6),
+('IT401', N'زیرساخت فناوری اطلاعات', N'IT', 3, 6),
+('SEC401', N'مقدمه‌ای بر امنیت سایبری', N'Security', 3, 6);
+
+-- درج داده‌ها در جدول course_plan
 DECLARE @major INT = 1;
 WHILE @major <= 3
 BEGIN
@@ -230,141 +250,75 @@ BEGIN
   SET @major = @major + 1;
 END;
 
+-- درج دروس تخصصی برای بسته‌ها
+INSERT INTO Education.course_plan (course_id, major_id, level_id, package_id, suggested_term, type)
+VALUES
+('AI401', 1, 1, 1, 6, 'major'),
+('IT401', 2, 1, 3, 6, 'major'),
+('SEC401', 3, 1, 4, 6, 'major');
 
+-- درج پیش‌نیازها
 INSERT INTO Education.prerequisite (course_id, preq_id)
 VALUES
 ('CS102', 'CS101'),
 ('MATH102', 'MATH101'),
-('PHYS102', 'PHYS101'),
 ('CS201', 'CS102'),
-('CS202', 'CS201'),
-('CS203', 'CS102'),
-('CS301', 'CS202'),
-('CS302', 'CS201'),
-('CS303', 'CS202');
+('CS301', 'CS201'),
+('AI401', 'CS201'),
+('IT401', 'CS101'),
+('SEC401', 'CS101');
 
-INSERT INTO Education.corequisite (course_id, coreq_id)
+-- درج کلاس‌ها
+INSERT INTO Education.classroom (building, room_number, capacity)
+VALUES 
+(N'ابوریحان', '101', 50),
+(N'تالارها', 'A1', 120),
+(N'خوارزمی', '202', 40);
+
+-- درج بازه‌های زمانی
+INSERT INTO Education.time_slot (time_slot_id, day, start_time, end_time)
+VALUES 
+('TS1', N'شنبه', '08:00', '10:00'),
+('TS2', N'یک‌شنبه', '10:00', '12:00'),
+('TS3', N'دوشنبه', '13:00', '15:00'),
+('TS4', N'سه‌شنبه', '08:00', '10:00');
+
+SELECT * FROM Education.SECTION
+
+-- درج بخش‌ها
+INSERT INTO Education.section (course_id, sec_id, semester, year, building, room_number, time_slot_id)
+VALUES 
+('CS101', '1', N'پاییز', 2023, N'ابوریحان', '101', 'TS1'),
+('CS102', '1', N'پاییز', 2024, N'ابوریحان', '101', 'TS2'),
+('CS201', '1', N'پاییز', 2024, N'خوارزمی', '202', 'TS3'),
+('AI401', '1', N'پاییز', 2024, N'تالارها', 'A1', 'TS4'),
+('MATH101', '1', N'پاییز', 2023, N'تالارها', 'A1', 'TS1'),
+('PHYS101', '1', N'پاییز', 2023, N'تالارها', 'A1', 'TS2'),
+('MATH102', '1', N'بهار', 2024, N'تالارها', 'A1', 'TS1'),
+('CS201', '2', N'تابستان', 2024, N'خوارزمی', '202', 'TS3');
+
+-- درج داده‌ها در جدول takes
+INSERT INTO Education.takes (student_id, course_id, sec_id, semester, year, grade)
 VALUES
-('PHYS102', 'MATH102');
+(40234473, 'CS101', '1', N'پاییز', 2023, 17.5),
+(40234473, 'MATH101', '1', N'پاییز', 2023, 16.0),
+(40234473, 'PHYS101', '1', N'پاییز', 2023, 15.0),
+(40234473, 'CS102', '1', N'پاییز', 2024, 18.0),
+(40234473, 'MATH102', '1', N'بهار', 2024, 17.5),
+(40234473, 'CS201', '2', N'تابستان', 2024, 16.0),
+(40225689, 'CS101', '1', N'پاییز', 2023, 9.0); -- نمره زیر 10 برای تست
 
 
--- نرم افزار
-INSERT INTO Education.course (course_id, title, dept_name, credits, suggested_term)
-VALUES
-('CS401', 'Advanced Software Engineering', 'CS', 3, 6),
-('CS402', 'Software Project Management', 'CS', 3, 6),
-('CS403', 'Software Testing and QA', 'CS', 3, 7),
-('CS404', 'Software Architecture', 'CS', 3, 7),
-('CS405', 'Software Deployment', 'CS', 3, 8),
-('CS406', 'Software Security', 'CS', 3, 8);
+-- درج داده‌ها در جدول teaches
+INSERT INTO Education.teaches (instructor_id, course_id, sec_id, semester, year)
+VALUES 
+(1, 'CS101', '1', N'پاییز', 2023),
+(1, 'CS102', '1', N'پاییز', 2024),
+(2, 'MATH101', '1', N'پاییز', 2023),
+(3, 'PHYS101', '1', N'پاییز', 2023);
 
--- سیستم های هوشمند
-INSERT INTO Education.course (course_id, title, dept_name, credits, suggested_term)
-VALUES
-('AI401', 'Introduction to AI', 'CS', 3, 6),
-('AI402', 'Machine Learning', 'CS', 3, 6),
-('AI403', 'Deep Learning', 'CS', 3, 7),
-('AI404', 'Computer Vision', 'CS', 3, 7),
-('AI405', 'Natural Language Processing', 'CS', 3, 8),
-('AI406', 'AI Ethics and Society', 'CS', 3, 8);
-
--- فناوری اطلاعات
-INSERT INTO Education.course (course_id, title, dept_name, credits, suggested_term)
-VALUES
-('IT401', 'IT Infrastructure', 'IT', 3, 6),
-('IT402', 'Network Administration', 'IT', 3, 6),
-('IT403', 'Cloud Computing', 'IT', 3, 7),
-('IT404', 'IT Service Management', 'IT', 3, 7),
-('IT405', 'Enterprise Systems', 'IT', 3, 8),
-('IT406', 'IT Security Management', 'IT', 3, 8);
-
--- رایانش امن
-INSERT INTO Education.course (course_id, title, dept_name, credits, suggested_term)
-VALUES
-('SEC401', 'Introduction to Cybersecurity', 'Security', 3, 6),
-('SEC402', 'Network Security', 'Security', 3, 6),
-('SEC403', 'Cryptography', 'Security', 3, 7),
-('SEC404', 'Ethical Hacking', 'Security', 3, 7),
-('SEC405', 'Digital Forensics', 'Security', 3, 8),
-('SEC406', 'Secure Software Development', 'Security', 3, 8);
-
-INSERT INTO Education.prerequisite (course_id, preq_id)
-VALUES
-('CS401', 'CS303'),
-('CS402', 'CS401'),
-('CS403', 'CS402'),
-('CS404', 'CS403'),
-('CS405', 'CS404'),
-('CS406', 'CS405'),
-
-('AI401', 'CS202'),
-('AI402', 'AI401'),
-('AI403', 'AI402'),
-('AI404', 'AI402'),
-('AI405', 'AI403'),
-('AI406', 'AI405'),
-
-('IT401', 'CS203'),
-('IT402', 'IT401'),
-('IT403', 'IT402'),
-('IT404', 'IT402'),
-('IT405', 'IT403'),
-('IT406', 'IT405'),
-
-('SEC401', 'CS203'),
-('SEC402', 'SEC401'),
-('SEC403', 'SEC402'),
-('SEC404', 'SEC403'),
-('SEC405', 'SEC404'),
-('SEC406', 'SEC405');
-
--- نرم افزار
-INSERT INTO Education.course_plan (course_id, major_id, level_id, package_id, suggested_term, type)
-VALUES
-('CS401', 1, 1, 2, 6, 'major'),
-('CS402', 1, 1, 2, 6, 'major'),
-('CS403', 1, 1, 2, 7, 'major'),
-('CS404', 1, 1, 2, 7, 'major'),
-('CS405', 1, 1, 2, 8, 'major'),
-('CS406', 1, 1, 2, 8, 'major');
-
--- سیستم های هوشمند
-INSERT INTO Education.course_plan (course_id, major_id, level_id, package_id, suggested_term, type)
-VALUES
-('AI401', 1, 1, 1, 6, 'major'),
-('AI402', 1, 1, 1, 6, 'major'),
-('AI403', 1, 1, 1, 7, 'major'),
-('AI404', 1, 1, 1, 7, 'major'),
-('AI405', 1, 1, 1, 8, 'major'),
-('AI406', 1, 1, 1, 8, 'major');
-
--- فناوری اطلاعات
-INSERT INTO Education.course_plan (course_id, major_id, level_id, package_id, suggested_term, type)
-VALUES
-('IT401', 2, 1, 3, 6, 'major'),
-('IT402', 2, 1, 3, 6, 'major'),
-('IT403', 2, 1, 3, 7, 'major'),
-('IT404', 2, 1, 3, 7, 'major'),
-('IT405', 2, 1, 3, 8, 'major'),
-('IT406', 2, 1, 3, 8, 'major');
-
--- رایانش امن
-INSERT INTO Education.course_plan (course_id, major_id, level_id, package_id, suggested_term, type)
-VALUES
-('SEC401', 3, 1, 4, 6, 'major'),
-('SEC402', 3, 1, 4, 6, 'major'),
-('SEC403', 3, 1, 4, 7, 'major'),
-('SEC404', 3, 1, 4, 7, 'major'),
-('SEC405', 3, 1, 4, 8, 'major'),
-('SEC406', 3, 1, 4, 8, 'major');
-
-
-
-
-INSERT INTO Education.takes (student_id, course_id, grade)
-VALUES
-(40234473, 101, 14), -- Programming Fundamentals
-(40234473, 102, 16), -- Advanced Programming
-(40234473, 103, 13), -- Discrete Mathematics
-(40234473, 104, 12), -- Data Structures
-(40234473, 105, 18); -- Computer Organization
+-- درج داده‌ها در جدول employee
+INSERT INTO Education.employee (national_id, role, salary)
+VALUES 
+(1284725286, N'مدیر آموزش', 18000000),
+(1000000044, N'کارشناس آموزش', 12500000);

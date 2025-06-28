@@ -1,17 +1,17 @@
 CREATE TABLE person (
    national_id int PRIMARY KEY,
-   first_name VARCHAR(50),
-   last_name VARCHAR(50),
-   email VARCHAR(50) null,
-   username VARCHAR(50),
+   first_name NVARCHAR(50),
+   last_name NVARCHAR(50),
+   email NVARCHAR(50) null,
+   username NVARCHAR(50),
    password_hash varchar(50)
 );
 
 
 
 CREATE TABLE Education.department (
-    dept_name VARCHAR(50) PRIMARY KEY,
-    building VARCHAR(50),
+    dept_name NVARCHAR(50) PRIMARY KEY,
+    building NVARCHAR(50),
     budget FLOAT
 );
 
@@ -23,7 +23,7 @@ CREATE TABLE Education.degree_level (
 CREATE TABLE Education.major (
     major_id INT PRIMARY KEY,
     name NVARCHAR(100),
-    dept_name VARCHAR(50),
+    dept_name NVARCHAR(50),
     FOREIGN KEY (dept_name) REFERENCES Education.department(dept_name)
 );
 
@@ -37,7 +37,7 @@ CREATE TABLE Education.special_package (
 CREATE TABLE Education.instructor (
     instructor_id INT PRIMARY KEY,
     national_id INT UNIQUE,
-    dept_name VARCHAR(50),
+    dept_name NVARCHAR(50),
     salary FLOAT,
     employment_status INT DEFAULT 1,
     FOREIGN KEY (national_id) REFERENCES person(national_id),
@@ -48,7 +48,7 @@ CREATE TABLE Education.instructor (
 CREATE TABLE Education.student (
     student_id INT PRIMARY KEY,
     national_id INT UNIQUE,
-    dept_name VARCHAR(50),
+    dept_name NVARCHAR(50),
     major_id INT,
     advisor_id INT,
     tot_cred INT,
@@ -65,21 +65,21 @@ CREATE TABLE Education.student (
 );
 
 CREATE TABLE Education.course (
-    course_id VARCHAR(10) PRIMARY KEY,
-    title VARCHAR(100),
-    dept_name VARCHAR(50),
+    course_id NVARCHAR(10) PRIMARY KEY,
+    title NVARCHAR(100),
+    dept_name NVARCHAR(50),
     credits INT,
-    suggested_term TINYINT,
+    suggested_term INT,
     FOREIGN KEY (dept_name) REFERENCES Education.department(dept_name)
 );
 
 CREATE TABLE Education.course_plan (
-    course_id VARCHAR(10),
+    course_id NVARCHAR(10),
     major_id INT,
     level_id INT,
     package_id INT NULL,
     suggested_term INT,
-    type VARCHAR(20),
+    type NVARCHAR(20),
     PRIMARY KEY (course_id, major_id, level_id),
     FOREIGN KEY (course_id) REFERENCES Education.course(course_id),
     FOREIGN KEY (major_id) REFERENCES Education.major(major_id),
@@ -88,28 +88,28 @@ CREATE TABLE Education.course_plan (
 );
 
 CREATE TABLE Education.classroom (
-    building VARCHAR(50),
-    room_number VARCHAR(10),
+    building NVARCHAR(50),
+    room_number NVARCHAR(10),
     capacity INT,
     PRIMARY KEY (building, room_number)
 );
 
 CREATE TABLE Education.time_slot (
-    time_slot_id VARCHAR(10),
-    day VARCHAR(10),
+    time_slot_id NVARCHAR(10),
+    day NVARCHAR(10),
     start_time TIME,
     end_time TIME,
     PRIMARY KEY (time_slot_id)
 );
 
 CREATE TABLE Education.section (
-    course_id VARCHAR(10),
-    sec_id VARCHAR(10),
-    semester VARCHAR(10),
+    course_id NVARCHAR(10),
+    sec_id NVARCHAR(10),
+    semester NVARCHAR(10),
     year INT,
-    building VARCHAR(50),
-    room_number VARCHAR(10),
-    time_slot_id VARCHAR(10),
+    building NVARCHAR(50),
+    room_number NVARCHAR(10),
+    time_slot_id NVARCHAR(10),
     PRIMARY KEY (course_id, sec_id, semester, year),
     FOREIGN KEY (course_id) REFERENCES Education.course(course_id),
     FOREIGN KEY (building, room_number) REFERENCES Education.classroom(building, room_number),
@@ -117,16 +117,16 @@ CREATE TABLE Education.section (
 );
 
 CREATE TABLE Education.prerequisite (
-    course_id VARCHAR(10),
-    preq_id VARCHAR(10),
+    course_id NVARCHAR(10),
+    preq_id NVARCHAR(10),
     PRIMARY KEY (course_id, preq_id),
     FOREIGN KEY (course_id) REFERENCES Education.course(course_id),
     FOREIGN KEY (preq_id) REFERENCES Education.course(course_id)
 );
 
 CREATE TABLE Education.corequisite (
-    course_id VARCHAR(10),
-    coreq_id VARCHAR(10),
+    course_id NVARCHAR(10),
+    coreq_id NVARCHAR(10),
     PRIMARY KEY (course_id, coreq_id),
     FOREIGN KEY (course_id) REFERENCES Education.course(course_id),
     FOREIGN KEY (coreq_id) REFERENCES Education.course(course_id)
@@ -134,9 +134,9 @@ CREATE TABLE Education.corequisite (
 
 CREATE TABLE Education.takes (
     student_id INT,
-    course_id VARCHAR(10),
-    sec_id VARCHAR(10),
-    semester VARCHAR(10),
+    course_id NVARCHAR(10),
+    sec_id NVARCHAR(10),
+    semester NVARCHAR(10),
     year INT,
     grade FLOAT,
     PRIMARY KEY (student_id, course_id, sec_id, semester, year),
@@ -146,9 +146,9 @@ CREATE TABLE Education.takes (
 
 CREATE TABLE Education.teaches (
     instructor_id INT,
-    course_id VARCHAR(10),
-    sec_id VARCHAR(10),
-    semester VARCHAR(10),
+    course_id NVARCHAR(10),
+    sec_id NVARCHAR(10),
+    semester NVARCHAR(10),
     year INT,
     PRIMARY KEY (instructor_id, course_id, sec_id, semester, year),
     FOREIGN KEY (instructor_id) REFERENCES Education.instructor(instructor_id),
@@ -157,9 +157,9 @@ CREATE TABLE Education.teaches (
 
 CREATE TABLE Education.TA (
     student_id INT,
-    course_id VARCHAR(10),
-    sec_id VARCHAR(10),
-    semester VARCHAR(10),
+    course_id NVARCHAR(10),
+    sec_id NVARCHAR(10),
+    semester NVARCHAR(10),
     year INT,
     PRIMARY KEY (student_id, course_id, sec_id, semester, year),
     FOREIGN KEY (student_id) REFERENCES Education.student(student_id),
@@ -168,7 +168,7 @@ CREATE TABLE Education.TA (
 
 CREATE TABLE Education.employee (
     national_id INT PRIMARY KEY,
-    role VARCHAR(50),
+    role NVARCHAR(50),
     salary FLOAT,
     FOREIGN KEY (national_id) REFERENCES person(national_id)
 );
@@ -176,17 +176,17 @@ CREATE TABLE Education.employee (
 CREATE TABLE Education.internship (
     internship_id INT PRIMARY KEY,
     student_id INT,
-    company_name VARCHAR(100),
+    company_name NVARCHAR(100),
     start_date DATE,
     end_date DATE,
-    supervisor_name VARCHAR(100),
-    status VARCHAR(20),
+    supervisor_name NVARCHAR(100),
+    status NVARCHAR(20),
     FOREIGN KEY (student_id) REFERENCES Education.student(student_id)
 );
 
 CREATE TABLE Education.research_project (
     project_id INT PRIMARY KEY,
-    title VARCHAR(100),
+    title NVARCHAR(100),
     start_date DATE,
     end_date DATE,
     budget FLOAT,
@@ -197,7 +197,7 @@ CREATE TABLE Education.research_project (
 CREATE TABLE Education.participation (
     project_id INT,
     student_id INT,
-    role VARCHAR(50),
+    role NVARCHAR(50),
     PRIMARY KEY (project_id, student_id),
     FOREIGN KEY (project_id) REFERENCES Education.research_project(project_id),
     FOREIGN KEY (student_id) REFERENCES Education.student(student_id)
@@ -206,8 +206,8 @@ CREATE TABLE Education.participation (
 CREATE TABLE Education.log (
     log_id INT IDENTITY PRIMARY KEY,
     event_time DATETIME DEFAULT GETDATE(),
-    table_name VARCHAR(50),
-    operation_type VARCHAR(10),
+    table_name NVARCHAR(50),
+    operation_type NVARCHAR(10),
     description NVARCHAR(MAX)
 );
 
@@ -287,7 +287,7 @@ create table library.book_auhtor(
 
 CREATE TABLE library.users (
    user_id INT  identity PRIMARY KEY,
-   person_id INT foreign key references Education.person(national_id)
+   person_id INT foreign key references person(national_id)
    ,is_active BIT default 1,
    create_time DATETIME DEFAULT GETDATE(),
    user_role VARCHAR(50),

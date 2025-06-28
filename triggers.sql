@@ -7,7 +7,7 @@ AFTER INSERT
 AS
 BEGIN
     INSERT INTO Education.log (table_name, operation_type, description)
-    SELECT 'Education.student', 'INSERT', 'Student ' + CAST(student_id AS VARCHAR) + ' inserted'
+    SELECT 'Education.student', N'INSERT', N'Student ' + CAST(student_id AS NVARCHAR) + N' inserted'
     FROM inserted;
 END;
 go
@@ -42,22 +42,22 @@ END;
 
 go
 -- this should be complete by library:
-CREATE TRIGGER Education.trg_student_status_update
-ON Education.student
-AFTER UPDATE
-AS
-BEGIN
-    IF UPDATE(education_status)
-    BEGIN
-        INSERT INTO Education.log (table_name, operation_type, description)
-        SELECT 'Library.account', 'UPDATE',
-               'Library access updated for student ' + CAST(i.student_id AS VARCHAR) +
-               ' due to status change to ' + CAST(i.education_status AS VARCHAR)
-        FROM inserted i;
-    END
-END;
+--CREATE TRIGGER Education.trg_student_status_update
+--ON Education.student
+--AFTER UPDATE
+--AS
+--BEGIN
+--    IF UPDATE(education_status)
+--    BEGIN
+--        INSERT INTO Education.log (table_name, operation_type, description)
+--        SELECT 'Library.account', 'UPDATE',
+--               'Library access updated for student ' + CAST(i.student_id AS VARCHAR) +
+--               ' due to status change to ' + CAST(i.education_status AS VARCHAR)
+--        FROM inserted i;
+--    END
+--END;
 
-
+--GO
 
 CREATE TRIGGER trg_check_national_id
 ON person
