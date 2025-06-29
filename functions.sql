@@ -1,5 +1,4 @@
-﻿go
-/* **************** Education **************** */
+﻿/* **************** Education **************** */
 CREATE FUNCTION Education.fn_calculate_gpa (@student_id INT)
 RETURNS FLOAT
 AS
@@ -61,26 +60,6 @@ BEGIN
     RETURN @desc
 END;
 GO
---  this function should be edited:
-CREATE FUNCTION Education.fn_suggest_courses (
-    @student_id INT
-)
-RETURNS TABLE
-AS
-RETURN
-SELECT c.course_id, c.title, c.suggested_term
-FROM Education.course c
-WHERE NOT EXISTS (
-    SELECT 1
-    FROM Education.takes t
-    WHERE t.student_id = @student_id AND t.course_id = c.course_id
-)
-AND c.suggested_term = (
-    SELECT education_status
-    FROM Education.student
-    WHERE student_id = @student_id AND education_status BETWEEN 1 AND 12
-);
-go
 
 
 CREATE FUNCTION Education.fn_is_valid_national_id(@NationalID INT)
@@ -116,7 +95,7 @@ BEGIN
 	RETURN @res;
 END;
 
-
+GO
 CREATE FUNCTION Education.fn_suggest_courses (
     @student_id INT
 )
