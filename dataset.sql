@@ -34,6 +34,9 @@
 -- درج داده‌ها در جدول person
 INSERT INTO person (national_id, first_name, last_name, email, username, password_hash)
 VALUES 
+('1000000257', N'کیان', N'شفیعی', 'kiyan.ahmadi@test.com', 'ali.ahmadi', 'hashedpass1'),
+('1000000265', N'علیرضا', N'روح الهی', 'alireza.hosseini@test.com', 'sara.hosseini', 'hashedpass2'),
+('1000000273', N'رضا', N'حبیبی', 'reza.mohammadi@test.com', 'reza.mohammadi', 'hashedpass3'),
 ('1000000011', 'Ali', 'Ahmadi', 'ali.ahmadi@example.com', 'ali_user1', 'pass1'),
 ('1000000028', 'Sara', 'Moradi', 'sara.moradi@example.com', 'sara_user2', 'pass2'),
 ('1000000036', 'Reza', 'Jafari', 'reza.jafari@example.com', 'reza_user3', 'pass3'),

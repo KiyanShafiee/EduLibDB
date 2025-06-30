@@ -206,7 +206,7 @@ CREATE TABLE Education.log (
     log_id INT IDENTITY PRIMARY KEY,
     event_time DATETIME DEFAULT GETDATE(),
     table_name NVARCHAR(50),
-    operation_type NVARCHAR(10),
+    operation_type NVARCHAR(100),
     description NVARCHAR(MAX)
 );
 

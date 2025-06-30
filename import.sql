@@ -1,7 +1,4 @@
-﻿SELECT * FROM Education.student;
-SELECT * FROM Education.course_plan;
-SELECT * FROM Library.books;
-
+﻿
 go
 CREATE OR ALTER PROCEDURE Education.sp_import_students
     @file_path NVARCHAR(255)
@@ -23,7 +20,7 @@ BEGIN
         ROWTERMINATOR = ''\n'',
         FIRSTROW = 2,
         CODEPAGE = ''65001'',
-        ERRORFILE = ''C:\Users\asus\OneDrive\Desktop\DB project\student_error.log''
+        ERRORFILE = ''F:\EduLibDB\project\EduLibDB\course_plan.txt''
     );';
 
 
@@ -57,7 +54,7 @@ BEGIN
         ROWTERMINATOR = ''\n'',
         FIRSTROW = 2,
         CODEPAGE = ''65001'',
-        ERRORFILE = ''C:\Users\asus\OneDrive\Desktop\DB project\course_plan_error.log''
+        ERRORFILE = ''F:\EduLibDB\project\EduLibDB\course_plan.txt''
     );';
 
     EXEC sp_executesql @sql;
@@ -85,9 +82,9 @@ BEGIN
     WITH (
         FIELDTERMINATOR = '','',
         ROWTERMINATOR = ''\n'',
-        FIRSTROW = 2,
+        FIRSTROW = 1,
         CODEPAGE = ''65001'',
-        ERRORFILE = ''C:\Users\asus\OneDrive\Desktop\DB project\books_error.log''
+        ERRORFILE = ''F:\EduLibDB\project\EduLibDB\book.txt''
     );';
 
     EXEC sp_executesql @sql;
@@ -100,16 +97,18 @@ END;
 GO
 
 -- تست Import جدول student
-EXEC Education.sp_import_students @file_path = 'C:\Users\asus\OneDrive\Desktop\DB project\student.csv';
+EXEC Education.sp_import_students @file_path = 'F:\EduLibDB\project\EduLibDB\student.csv';
 SELECT * FROM Education.student;
 SELECT * FROM Education.log WHERE table_name = 'Education.student' AND operation_type = 'BULK INSERT';
 
 -- تست Import جدول course_plan
-EXEC Education.sp_import_course_plan @file_path = 'C:\Users\asus\OneDrive\Desktop\DB project\course_plan.csv';
+EXEC Education.sp_import_course_plan @file_path = 'F:\EduLibDB\project\EduLibDB\course_plan.csv';
 SELECT * FROM Education.course_plan;
 SELECT * FROM Education.log WHERE table_name = 'Education.course_plan' AND operation_type = 'BULK INSERT';
 
 -- تست Import جدول books
-EXEC Library.sp_import_books @file_path = 'C:\Users\asus\OneDrive\Desktop\DB project\books.csv';
+EXEC Library.sp_import_books @file_path = 'F:\EduLibDB\project\EduLibDB\book.csv';
 SELECT * FROM Library.books;
 SELECT * FROM Library.Libeventlog WHERE resone LIKE 'Imported books%';
+
+
