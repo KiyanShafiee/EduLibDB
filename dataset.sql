@@ -33,11 +33,11 @@ DELETE FROM person;
 
 INSERT INTO person (national_id, first_name, last_name, email, username, password_hash)
 VALUES 
-(1000000011, 'Ali', 'Ahmadi', 'ali.ahmadi@example.com', 'ali_user1', 'pass1'),
-(1000000028, 'Sara', 'Moradi', 'sara.moradi@example.com', 'sara_user2', 'pass2'),
-(1000000036, 'Reza', 'Jafari', 'reza.jafari@example.com', 'reza_user3', 'pass3'),
-(1000000044, 'Niloofar', 'Karimi', 'niloofar.k@example.com', 'nilo_user4', 'pass4'),
-(1000000052, 'Mohammad', 'Shiri', 'mohammad.sh@example.com', 'moh_user5', 'pass5');
+("1000000011", 'Ali', 'Ahmadi', 'ali.ahmadi@example.com', 'ali_user1', 'pass1'),
+("1000000028", 'Sara', 'Moradi', 'sara.moradi@example.com', 'sara_user2', 'pass2'),
+("1000000036", 'Reza', 'Jafari', 'reza.jafari@example.com', 'reza_user3', 'pass3'),
+("1000000044", 'Niloofar', 'Karimi', 'niloofar.k@example.com', 'nilo_user4', 'pass4'),
+("1000000052", 'Mohammad', 'Shiri', 'mohammad.sh@example.com', 'moh_user5', 'pass5');
 -- add user
 -- DECLARE @pid INT;
 
@@ -203,9 +203,9 @@ VALUES
 -- درج داده‌ها در جدول instructor
 INSERT INTO Education.instructor (instructor_id, national_id, dept_name, salary, employment_status)
 VALUES
-(1, 1234896575, N'CS', 28000000, 1),
-(2, 1000000052, N'IT', 25000000, 1),
-(3, 1000000028, N'Security', 27000000, 1);
+(1, "1234896575", N'CS', 28000000, 1),
+(2, "1000000052", N'IT', 25000000, 1),
+(3, "1000000028", N'Security', 27000000, 1);
 
 -- درج داده‌ها در جدول special_package
 INSERT INTO Education.special_package (package_id, name, major_id)
@@ -218,10 +218,10 @@ VALUES
 -- درج داده‌ها در جدول student
 INSERT INTO Education.student (student_id, national_id, dept_name, major_id, advisor_id, tot_cred, education_status, current_term, level_id, package_id)
 VALUES
-(40234473, 1274444608, N'CS', 1, 1, 20, 1, 6, 1, 2), -- در حال تحصیل
-(40225689, 1284725286, N'IT', 2, 2, 50, 13, 8, 1, 3), -- فارغ‌التحصیل
-(40258698, 1274444675, N'Security', 3, 3, 80, 14, 7, 1, 4), -- انصرافی
-(40298765, 1000000044, N'CS', 1, 1, 30, 15, 5, 1, 2); -- اخراجی
+(40234473, "1274444608", N'CS', 1, 1, 20, 1, 6, 1, 2), -- در حال تحصیل
+(40225689, "1284725286", N'IT', 2, 2, 50, 13, 8, 1, 3), -- فارغ‌التحصیل
+(40258698, "1274444675", N'Security', 3, 3, 80, 14, 7, 1, 4), -- انصرافی
+(40298765, "1000000044", N'CS', 1, 1, 30, 15, 5, 1, 2); -- اخراجی
 
 
 
@@ -320,5 +320,5 @@ VALUES
 -- درج داده‌ها در جدول employee
 INSERT INTO Education.employee (national_id, role, salary)
 VALUES 
-(1284725286, N'مدیر آموزش', 18000000),
-(1000000044, N'کارشناس آموزش', 12500000);
+("1284725286", N'مدیر آموزش', 18000000),
+("1000000044", N'کارشناس آموزش', 12500000);

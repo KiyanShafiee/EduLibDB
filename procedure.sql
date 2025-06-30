@@ -118,7 +118,7 @@ end
 
 
 go
-create procedure library.create_lib_user(@person_id int)
+create procedure library.create_lib_user(@person_id char(10))
 as 
 begin 
 	declare @is_frequent bit
@@ -145,6 +145,16 @@ create procedure library.borrrow_item (@item_id int , @item_type varchar(20),@us
 as
 begin
 		begin TRANSACTION tran_borrow
+			if(NOT EXISTS( SELECT 1 FROM Library.borrowings WHERE item_id =@item_id and item_type = @item_type and [status] = 'borrowed' )and  exists(select 1 from Library.users where is_active =1 and user_id = @user_id ))
+			BEGIN
+			insert into Library.borrowings (user_id,item_id,item_type,borrow_date,due_time,return_date) values 
+			(@user_id,@item_id,@item_type,getdate(),DATEADD(DAY , 14 , getdate()),null)
+			end
+			else
+			begin 
+				ROLLBACK tran tran_borrow
+				return
+			end
 			if @item_type = 'book'
 				exec library.change_book_state_to_borrowed @item_id
 			else if @item_type = 'magazine'
@@ -157,13 +167,6 @@ begin
 				ROLLBACK tran tran_borrow
 				return
 			end
-			if(NOT EXISTS( SELECT 1 FROM Library.borrowings WHERE item_id =@item_id and item_type = @item_type )and  exists(select 1 from Library.users where is_active =1 and user_id = @user_id ))
-			BEGIN
-			insert into Library.borrowings (user_id,item_id,item_type,borrow_date,due_time,return_date) values 
-			(@user_id,@item_id,@item_type,getdate(),DATEADD(DAY , 14 , getdate()),null)
-			end
-			else 
-				ROLLBACK tran tran_borrow
 			commit TRAN tran_borrow
 		
 end
@@ -197,8 +200,7 @@ begin
 end
 
 
-go 
-drop proc library.proc_suggest_book
+
 go 
 create procedure library.proc_suggest_book (@user_id int) 
 as
@@ -224,7 +226,5 @@ begin
     join frequenty_of_book_borrowing as fb on fb.item_id = nb.book_id
     ORDER by fb.frequency desc 
     )
-select a.book_id , b.book_title from arranged_base_on_frequency as a
-	join library.books as b on a.book_id = b.book_id 
-
+    select * from arranged_base_on_frequency
 end 

@@ -1,11 +1,13 @@
 CREATE TABLE person (
-   national_id int PRIMARY KEY,
+   national_id char(10) PRIMARY KEY,
    first_name NVARCHAR(50),
    last_name NVARCHAR(50),
    email NVARCHAR(50) null,
    username NVARCHAR(50),
    password_hash varchar(50)
 );
+
+
 
 
 
@@ -36,7 +38,7 @@ CREATE TABLE Education.special_package (
 
 CREATE TABLE Education.instructor (
     instructor_id INT PRIMARY KEY,
-    national_id INT UNIQUE,
+    national_id char(10) UNIQUE,
     dept_name NVARCHAR(50),
     salary FLOAT,
     employment_status INT DEFAULT 1,
@@ -47,7 +49,7 @@ CREATE TABLE Education.instructor (
 /*education status 1-12 ok , 13 educated , 14 fired , 15 withdrow (cancelled edu) */
 CREATE TABLE Education.student (
     student_id INT PRIMARY KEY,
-    national_id INT UNIQUE,
+    national_id char(10) UNIQUE,
     dept_name NVARCHAR(50),
     major_id INT,
     advisor_id INT,
@@ -167,7 +169,7 @@ CREATE TABLE Education.TA (
 );
 
 CREATE TABLE Education.employee (
-    national_id INT PRIMARY KEY,
+    national_id char(10) PRIMARY KEY,
     role NVARCHAR(50),
     salary FLOAT,
     FOREIGN KEY (national_id) REFERENCES person(national_id)
@@ -287,7 +289,7 @@ create table library.book_auhtor(
 
 CREATE TABLE library.users (
    user_id INT  identity PRIMARY KEY,
-   person_id INT foreign key references person(national_id)
+   person_id char(10) foreign key references person(national_id)
    ,is_active BIT default 1,
    create_time DATETIME DEFAULT GETDATE(),
    user_role VARCHAR(50),

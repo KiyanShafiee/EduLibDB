@@ -62,14 +62,11 @@ END;
 GO
 
 
-CREATE FUNCTION Education.fn_is_valid_national_id(@NationalID INT)
+CREATE FUNCTION Education.fn_is_valid_national_id(@NationalID char(10))
 RETURNS BIT
 AS
 BEGIN
 	DECLARE @res BIT = 1;
-
-	-- تبدیل به رشته با 10 رقم
-	DECLARE @NationalIDStr CHAR(10) = RIGHT('0000000000' + CAST(@NationalID AS VARCHAR(10)), 10);
 
 	IF LEN(@NationalIDStr) <> 10 OR ISNUMERIC(@NationalIDStr + '.0e0') = 0 OR 
 	   @NationalIDStr IN ('0000000000','1111111111','2222222222','3333333333',
