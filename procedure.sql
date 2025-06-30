@@ -53,6 +53,19 @@ BEGIN
     VALUES ('Education.takes', 'DELETE', 'Dropped course ' + @course_id + ' for student ' + CAST(@student_id AS VARCHAR));
 END;
 
+go
+CREATE PROCEDURE Education.register_course
+    @student_id INT,
+    @course_id NVARCHAR(10),
+    @sec_id NVARCHAR(10),
+    @semester NVARCHAR(10),
+    @year INT
+AS
+BEGIN
+    INSERT INTO Education.takes(student_id, course_id, sec_id, semester, year, grade)
+    VALUES (@student_id, @course_id, @sec_id, @semester, @year, NULL);
+END;
+GO
 
 
 
@@ -138,8 +151,7 @@ end
 
 
 
-go 
-drop proc library.borrrow_item
+
 go
 create procedure library.borrrow_item (@item_id int , @item_type varchar(20),@user_id int)
 as

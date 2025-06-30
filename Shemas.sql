@@ -1,5 +1,5 @@
-CREATE DATABASE EduLibDB5;
-
+go
 Create schema Education;
 
+go
 create schema Library;

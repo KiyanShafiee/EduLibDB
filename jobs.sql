@@ -8,7 +8,7 @@ exec sp_add_jobstep
 @job_name = 'calculate_fine' , 
 @step_name = 'execute procedure',
 @subsystem = 'TSQL',
-@database_name = 'EduLibDb',
+@database_name = 'EduLib3',
 @command = 'exec poc_calculate_fine;',
 @on_success_action  = 1;
 

@@ -151,8 +151,6 @@ END;
 
 
 go 
-drop TRIGGER trg_before_insert_borrowing_check_availability
-go 
 CREATE TRIGGER trg_before_insert_borrowing_check_availability
 ON library.borrowings
 INSTEAD OF INSERT

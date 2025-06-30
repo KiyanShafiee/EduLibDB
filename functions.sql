@@ -1,4 +1,45 @@
 ﻿/* **************** Education **************** */
+CREATE FUNCTION Education.fn_get_gpa(@student_id INT)
+RETURNS FLOAT
+AS
+BEGIN
+    DECLARE @gpa FLOAT;
+    SELECT @gpa = AVG(grade)
+    FROM Education.takes
+    WHERE student_id = @student_id AND grade IS NOT NULL;
+    RETURN @gpa;
+END;
+GO
+
+
+CREATE FUNCTION Education.fn_total_credits(@student_id INT)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @total INT;
+    SELECT @total = SUM(c.credits)
+    FROM Education.takes t
+    JOIN Education.course c ON t.course_id = c.course_id
+    WHERE t.student_id = @student_id AND t.grade IS NOT NULL;
+    RETURN @total;
+END;
+GO
+
+
+CREATE FUNCTION Education.fn_current_term(@student_id INT)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @term INT;
+    SELECT @term = current_term
+    FROM Education.student
+    WHERE student_id = @student_id;
+    RETURN @term;
+END;
+GO
+
+
+
 CREATE FUNCTION Education.fn_calculate_gpa (@student_id INT)
 RETURNS FLOAT
 AS
@@ -68,8 +109,8 @@ AS
 BEGIN
 	DECLARE @res BIT = 1;
 
-	IF LEN(@NationalIDStr) <> 10 OR ISNUMERIC(@NationalIDStr + '.0e0') = 0 OR 
-	   @NationalIDStr IN ('0000000000','1111111111','2222222222','3333333333',
+	IF LEN(@NationalID) <> 10 OR ISNUMERIC(@NationalID + '.0e0') = 0 OR 
+	   @NationalID IN ('0000000000','1111111111','2222222222','3333333333',
 					   '4444444444','5555555555','6666666666','7777777777',
 					   '8888888888','9999999999') 
 	BEGIN
@@ -77,14 +118,14 @@ BEGIN
 	END
 
 	DECLARE @b INT = (
-		10*SUBSTRING(@NationalIDStr,1,1) + 9*SUBSTRING(@NationalIDStr,2,1) + 
-		8*SUBSTRING(@NationalIDStr,3,1) + 7*SUBSTRING(@NationalIDStr,4,1) +
-		6*SUBSTRING(@NationalIDStr,5,1) + 5*SUBSTRING(@NationalIDStr,6,1) +
-		4*SUBSTRING(@NationalIDStr,7,1) + 3*SUBSTRING(@NationalIDStr,8,1) +
-		2*SUBSTRING(@NationalIDStr,9,1)
+		10*SUBSTRING(@NationalID,1,1) + 9*SUBSTRING(@NationalID,2,1) + 
+		8*SUBSTRING(@NationalID,3,1) + 7*SUBSTRING(@NationalID,4,1) +
+		6*SUBSTRING(@NationalID,5,1) + 5*SUBSTRING(@NationalID,6,1) +
+		4*SUBSTRING(@NationalID,7,1) + 3*SUBSTRING(@NationalID,8,1) +
+		2*SUBSTRING(@NationalID,9,1)
 	) % 11;
 
-	DECLARE @ctrl TINYINT = SUBSTRING(@NationalIDStr,10,1);
+	DECLARE @ctrl TINYINT = SUBSTRING(@NationalID,10,1);
 
 	IF (@b < 2 AND @ctrl != @b) OR (@b >= 2 AND @ctrl != 11 - @b)
 		SET @res = 0;

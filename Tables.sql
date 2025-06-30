@@ -8,9 +8,6 @@ CREATE TABLE person (
 );
 
 
-
-
-
 CREATE TABLE Education.department (
     dept_name NVARCHAR(50) PRIMARY KEY,
     building NVARCHAR(50),
