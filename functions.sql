@@ -221,7 +221,7 @@ begin
 	 from Library.borrowings as b where
 	 item_id = @f_item_id and item_type = @f_item_type 
 		return case 
-		when @status is null or @status = 'returnd'then 1 
+		when @status is not  null or @status = 'returnd'then 1 
 	else 0 end;
 end 
 
@@ -260,7 +260,6 @@ order by borrow_count desc
 )
 
 go
-
 create function library.get_top_3_most_borrowed_magazines_category()
 returns table
 as 
@@ -270,7 +269,7 @@ select top (3) c.category_id , c.category_name, count(*) as borrow_count
 from Library.borrowings as b 
 join Library.magazines as m on m.magazines_id= b.item_id
 join Library.category as c on c.category_id = m.category_id
-where b.item_type = 'magazines'
+where b.item_type = 'magazine'
 group by c.category_id , c.category_name 
 order by borrow_count desc
 )

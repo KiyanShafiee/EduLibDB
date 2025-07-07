@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="50"
-  DTS:VersionGUID="{99135448-A83C-4F20-9C90-522A144E3980}">
+  DTS:VersionBuild="55"
+  DTS:VersionGUID="{31551A4A-6F4C-4F70-8EC5-74F312A03D24}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -103,7 +103,7 @@
           DTS:RowDelimiter=""
           DTS:TextQualifier="_x003C_none_x003E_"
           DTS:CodePage="1252"
-          DTS:ConnectionString="F:\EduLibDB\project\EduLibDB\resalt.txt">
+          DTS:ConnectionString="F:\EduLibDB\project\EduLibDB\result.txt">
           <DTS:FlatFileColumns>
             <DTS:FlatFileColumn
               DTS:ColumnType="Delimited"
@@ -111,7 +111,7 @@
               DTS:DataType="3"
               DTS:TextQualified="True"
               DTS:ObjectName="book_id"
-              DTS:DTSID="{5EA400E3-0CE0-4D8C-87BA-94D0D281E24B}"
+              DTS:DTSID="{DA5A70E8-DE09-4DD2-82E8-AE0E2A4C7834}"
               DTS:CreationName="" />
           </DTS:FlatFileColumns>
         </DTS:ConnectionManager>

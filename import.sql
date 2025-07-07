@@ -8,29 +8,24 @@ BEGIN
     
     DECLARE @sql NVARCHAR(MAX);
 
-    -- غیرفعال کردن کلیدهای خارجی
     ALTER TABLE Education.student NOCHECK CONSTRAINT ALL;
 
-    -- ساخت دستور BULK INSERT به‌صورت پویا
     SET @sql = N'
     BULK INSERT Education.student
     FROM ''' + @file_path + N'''
     WITH (
         FIELDTERMINATOR = '','',
         ROWTERMINATOR = ''\n'',
-        FIRSTROW = 2,
+        FIRSTROW = 1,
         CODEPAGE = ''65001'',
         ERRORFILE = ''F:\EduLibDB\project\EduLibDB\course_plan.txt''
     );';
 
 
-    -- اجرای دستور پویا
     EXEC sp_executesql @sql;
 
-   -- فعال کردن دوباره کلیدهای خارجی
     ALTER TABLE Education.student CHECK CONSTRAINT ALL;
 
-    -- ثبت لاگ
     INSERT INTO Education.log (table_name, operation_type, description)
     VALUES ('Education.student', 'BULK INSERT', 'Imported students from ' + @file_path);
 END;
@@ -96,17 +91,14 @@ BEGIN
 END;
 GO
 
--- تست Import جدول student
 EXEC Education.sp_import_students @file_path = 'F:\EduLibDB\project\EduLibDB\student.csv';
 SELECT * FROM Education.student;
 SELECT * FROM Education.log WHERE table_name = 'Education.student' AND operation_type = 'BULK INSERT';
 
--- تست Import جدول course_plan
 EXEC Education.sp_import_course_plan @file_path = 'F:\EduLibDB\project\EduLibDB\course_plan.csv';
 SELECT * FROM Education.course_plan;
 SELECT * FROM Education.log WHERE table_name = 'Education.course_plan' AND operation_type = 'BULK INSERT';
 
--- تست Import جدول books
 EXEC Library.sp_import_books @file_path = 'F:\EduLibDB\project\EduLibDB\book.csv';
 SELECT * FROM Library.books;
 SELECT * FROM Library.Libeventlog WHERE resone LIKE 'Imported books%';
